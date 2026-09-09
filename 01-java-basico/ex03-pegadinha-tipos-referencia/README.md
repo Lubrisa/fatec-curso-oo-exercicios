@@ -1,94 +1,57 @@
 # ex03 — O Mistério do Aliasing de Referências
 
 > **Módulo:** 01 — Java Básico  
-> **Tipologia:** Bugfix / Diagnóstico de Memória  
+> **Tipologia:** Bugfix / Diagnóstico de Código  
 > **Dificuldade:** ⭐☆☆ (Iniciante)  
-> **Conceitos:** Tipos Primitivos vs Tipos por Referência, Memória Stack vs Heap, Compartilhamento de Referência (*Aliasing*), Clonagem e Efeitos Colaterais  
+> **Conceitos:** Tipos Primitivos vs Tipos por Referência, Efeitos Colaterais, Diagnóstico por Testes Automatizados  
 
-## 1. Contexto & Cenário
+## 1. Contexto & Chamado de Incidente
 
-Você acabou de entrar na equipe de desenvolvimento de uma plataforma de torneios de e-sports. O sistema possui um módulo responsável por registrar as pontuações obtidas pelos competidores e emitir um relatório consolidado (*snapshot*) antes e depois da aplicação de pontos de bonificação da rodada.
+Você atua como desenvolvedor em uma plataforma de torneios de e-sports. O sistema possui um módulo responsável por processar as pontuações de cada rodada, aplicando bonificações de vitória e gerando um relatório (*snapshot*) com os valores antes e depois da bonificação para fins de auditoria.
 
-Recentemente, jogadores e auditores começaram a relatar um comportamento estranho:
-> *"Toda vez que o sistema aplica o bônus da rodada, o histórico original de pontuações desaparece ou é sobrescrito pelos novos valores com bônus, impossibilitando a conferência das pontuações iniciais!"*
+Hoje pela manhã, a equipe de auditoria e compliance abriu o seguinte chamado crítico:
 
-Ao inspecionar a classe utilitária `ScoreSnapshotTracker`, você encontrou um clássico caso de **aliasing de referências** (*referência compartilhada*), introduzido por um desenvolvedor que presumiu que atribuir um array a uma nova variável criaria uma cópia independente de seus dados.
+---
 
-## 2. Objetivos de Aprendizagem
+### 📋 Chamado de Suporte #4092: Corrupção do Histórico de Pontuações
 
-- Compreender a diferença fundamental entre **tipos primitivos** (`int`, `double`, `boolean`) e **tipos por referência** (arrays, objetos).
-- Visualizar o funcionamento da memória no Java: variáveis locais primitivas armazenam o próprio valor diretamente na **Stack**, enquanto variáveis de referência armazenam apenas o endereço de memória que aponta para o objeto residente no **Heap**.
-- Identificar os perigos do *aliasing*: quando duas variáveis apontam para o mesmo objeto, alterar o conteúdo por meio de uma reflete instantaneamente na outra.
-- Praticar a criação de cópias defensivas (*defensive copy*) em arrays utilizando `scores.clone()`, `Arrays.copyOf()` ou instanciação com cópia manual elemento a elemento.
+> **Prioridade:** Alta  
+> **Módulo Afetado:** `ScoreSnapshotTracker`  
+> **Descrição do Problema:**  
+> *"Ao processar o bônus da rodada no final da partida, o histórico de pontuações originais dos jogadores está desaparecendo ou sendo sobrescrito! Quando a equipe de auditoria tenta inspecionar o array de pontuações iniciais para conferência com as súmulas dos juízes, os valores originais já aparecem alterados com o bônus somado.*  
+> *Além disso, os sistemas parceiros que nos passam o array de pontuações relatam que as variáveis deles também estão sendo modificadas misteriosamente após chamar o nosso método!"*
 
-## 3. Especificação Funcional
+---
 
-A classe utilitária `ScoreSnapshotTracker` possui os seguintes métodos:
+## 2. Comportamento Esperado vs Observado
 
-### 3.1. Aplicação de Bônus em Pontuações (Com Bug)
+- **Comportamento Esperado:**
+  - O array de pontuações recebido como parâmetro pelo método deve permanecer **estritamente inalterado** após a execução (sem efeitos colaterais no chamador).
+  - O relatório `ScoreSnapshot` deve registrar em `originalScores` os valores iniciais intactos e em `updatedScores` os valores acrescidos da bonificação.
+  - A pontuação máxima individual (`highScore`), que é um número inteiro, também deve ter sua versão original e sua versão atualizada devidamente registradas.
 
-```java
-private static int[] applyBonusToScores(int[] scores, int bonus)
-```
+- **Comportamento Observado:**
+  - A execução atual dos testes automatizados acusa falhas apontando que o array original foi mutado e que as pontuações antigas foram perdidas.
 
-- **Comportamento Esperado:** Deve receber um array de pontuações e retornar um **novo array independente**, contendo cada pontuação original somada ao valor de `bonus`.
-- **Regra Fundamental de Isolamento:** O array `scores` original recebido como argumento **não pode ser modificado** (efeito colateral proibido). O array retornado deve residir em uma posição de memória diferente no Heap (`returned != scores`).
-- **Validação:** Se `scores == null`, lance `IllegalArgumentException("O array de pontuações não pode ser nulo")`. Se `bonus < 0`, lance `IllegalArgumentException("O bônus não pode ser negativo")`.
+## 3. Sua Missão
 
-### 3.2. Aplicação de Bônus no Recorde Individual (Tipo Primitivo)
+Como engenheiro de software responsável pelo módulo, você deve:
 
-```java
-private static int applyBonusToHighScore(int currentHighScore, int bonus)
-```
-
-- Soma o bônus à pontuação máxima individual.
-- Como `currentHighScore` é do tipo primitivo `int`, sua atribuição já gera uma cópia do valor numérico na Stack, sem risco de aliasing.
-- **Validação:** Se `bonus < 0`, lance `IllegalArgumentException("O bônus não pode ser negativo")`.
-
-### 3.3. Geração do Resumo da Rodada (`processRoundBonus`)
-
-```java
-public static ScoreSnapshot processRoundBonus(int[] scores, int bonus, int currentHighScore)
-```
-
-Este é o método público que compõe os dados e gera o relatório `ScoreSnapshot`:
-
-1. Valida as entradas (`scores != null` e `bonus >= 0`).
-2. Mantém uma cópia defensiva das pontuações originais para auditoria.
-3. Gera o novo array com os bônus aplicados chamando `applyBonusToScores`.
-4. Calcula a nova pontuação máxima chamando `applyBonusToHighScore`.
-5. Retorna o registro imutável com a estrutura já engatilhada:
-   ```java
-   return new ScoreSnapshot(originalScores, updatedScores, currentHighScore, updatedHighScore);
+1. **Executar a suíte de testes automatizados:**
+   ```bash
+   ./mvnw test -pl :ex03-pegadinha-tipos-referencia
    ```
+2. **Analisar as falhas nos testes:**
+   - Observe quais cenários falharam e leia com atenção as mensagens de erro reportadas pelo JUnit e AssertJ.
+3. **Investigar o código-fonte:**
+   - Abra o arquivo `src/main/java/br/com/fatec/basic/ex03/ScoreSnapshotTracker.java`.
+   - Rastreie o ciclo de vida das variáveis e analise como os dados estão sendo manipulados na memória durante a execução dos métodos.
+4. **Corrigir o defeito:**
+   - Aplique a alteração necessária para eliminar o efeito colateral indesejado, garantindo que o array original seja preservado e que o novo cálculo funcione de forma independente.
+   - **Atenção:** Você **NÃO deve alterar a classe de testes** (`ScoreSnapshotTrackerTest.java`). Os testes representam o contrato de conformidade que seu código deve satisfazer.
 
-## 4. Diagnóstico do Bug
+## 4. Critérios de Aceite
 
-Observe o trecho de código original que causou o defeito:
-
-```java
-// CÓDIGO COM DEFEITO:
-private static int[] applyBonusToScores(int[] scores, int bonus) {
-    int[] updatedScores = scores; // <-- O BUG ESTÁ AQUI!
-    for (int i = 0; i < updatedScores.length; i++) {
-        updatedScores[i] += bonus;
-    }
-    return updatedScores;
-}
-```
-
-A linha `int[] updatedScores = scores;` **não cria um novo array**. Ela apenas copia o endereço de memória da referência. Tanto `scores` quanto `updatedScores` passam a apontar para o mesmíssimo bloco no Heap. Ao alterar `updatedScores[i]`, os dados do array original do chamador são irreversivelmente modificados.
-
-## 5. O que Você Deve Fazer
-
-1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex03/ScoreSnapshotTracker.java`.
-2. Observe as falhas nos testes automatizados executando `mvn test`.
-3. Corrija o método `applyBonusToScores` para que ele crie um **novo array**, preenchendo-o com as pontuações acrescidas do bônus, sem mutar o array recebido.
-4. No método `processRoundBonus`, certifique-se de que o histórico original preservado no relatório (`originalScores`) também seja uma cópia independente dos dados originais.
-5. Verifique se todas as validações de argumentos (*fail-fast*) estão sendo devidamente aplicadas.
-
-## 6. Critérios de Aceite
-
-- Todos os testes da classe `ScoreSnapshotTrackerTest` devem passar com sucesso.
-- O array retornado por `applyBonusToScores` deve ser uma referência diferente do array de entrada (`assertThat(result).isNotSameAs(scores)`).
-- O array original fornecido pelo chamador deve permanecer estritamente inalterado após a execução.
+- Todos os testes da classe `ScoreSnapshotTrackerTest` devem passar com sucesso (`BUILD SUCCESS`).
+- O código do teste não deve sofrer nenhuma modificação.
+- O array original fornecido pelo chamador deve permanecer estritamente inalterado.
