@@ -36,6 +36,7 @@
         <module>01-java-basico/ex04-classificador-triangulos</module>
         <module>01-java-basico/ex05-calculadora-tarifa-progressiva</module>
         <module>01-java-basico/ex06-gerador-tabuada-fatorial</module>
+        <module>01-java-basico/ex07-verificador-numero-primo</module>
     </modules>
 
     <dependencyManagement>
