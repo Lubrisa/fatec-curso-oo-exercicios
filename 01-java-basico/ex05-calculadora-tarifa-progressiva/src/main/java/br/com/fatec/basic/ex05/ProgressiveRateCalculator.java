@@ -21,15 +21,15 @@ public final class ProgressiveRateCalculator {
     }
 
     /**
-     * Calcula o custo da energia consumida aplicando as faixas progressivas cumulativas.
+     * Calcula o custo da energia consumida aplicando o fatiamento cumulativo por faixas.
      *
-     * <p>Regras de Fatiamento:
-     * - Até 100.0 kWh: R$ 0,50 por kWh.
-     * - De 100.01 a 200.0 kWh: primeiros 100 kWh a R$ 0,50 + excedente a R$ 0,75.
-     * - Acima de 200.0 kWh: primeiros 100 kWh a R$ 0,50 + 100 kWh seguintes a R$ 0,75 + excedente a R$ 1,00.</p>
+     * <p>Regras de Fatiamento por Excedente:
+     * - Faixa 1 (até 100.0 kWh): faturada a R$ 0,50 por kWh.
+     * - Faixa 2 (100.0 a 200.0 kWh): primeiros 100 kWh a R$ 0,50 + excedente da faixa (consumo - 100.0) a R$ 0,75.
+     * - Faixa 3 (acima de 200.0 kWh): primeiros 100 kWh a R$ 0,50 + 100 kWh seguintes a R$ 0,75 + excedente da faixa (consumo - 200.0) a R$ 1,00.</p>
      *
      * @param consumptionKwh consumo em kWh no ciclo de medição
-     * @return custo do consumo em reais
+     * @return custo total de energia em reais
      * @throws IllegalArgumentException se consumptionKwh for menor que zero
      */
     public static double calculateEnergyCost(double consumptionKwh) {

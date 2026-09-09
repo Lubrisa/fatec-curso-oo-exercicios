@@ -7,93 +7,125 @@
 
 ## 1. Contexto & Cenário
 
-Concessionárias de energia elétrica e serviços de utilidade pública frequentemente adotam modelos de **tarifação progressiva**. Em vez de aplicar uma alíquota única sobre todo o volume consumido, o consumo é dividido em fatias (*tiers* ou faixas cumulativas), tarifando o volume básico a um preço mais acessível e encarecendo apenas as fatias que excederem os patamares estipulados.
+Concessionárias de energia elétrica e serviços de utilidade pública frequentemente adotam modelos de **tarifação progressiva cumulativa** (também conhecida como tarifação em cascata ou fatiamento de faixas).
 
-Um dos erros mais comuns de programação iniciante nesse tipo de problema é a confusão entre **tarifação por faixa simples** (multiplicar todo o consumo pela tarifa da faixa mais alta atingida) e **tarifação progressiva cumulativa** (onde cada bloco de kWh é tarifado pelo valor correspondente à sua respectiva faixa).
+Em sistemas reais, a fatura de luz não funciona aplicando uma taxa única sobre todo o consumo. Se um cliente consome $250\text{ kWh}$, a distribuidora não cobra a tarifa da faixa mais cara sobre os $250\text{ kWh}$ inteiros — pois isso penalizaria o usuário de forma injusta e desproporcional. Em vez disso, o consumo é **decomposto em blocos (fatias)**: os primeiros $100\text{ kWh}$ continuam sendo baratos para todos, a fatia intermediária tem um preço moderado, e apenas os quilowatts-hora excedentes pagam o valor mais alto.
 
-Você foi contratado pela concessionária para implementar a classe utilitária `ProgressiveRateCalculator`, garantindo cálculos justos e estruturados sem condições condicionais redundantes.
+Você foi contratado pela concessionária para implementar a classe utilitária `ProgressiveRateCalculator`.
 
-## 2. Objetivos de Aprendizagem
+---
 
-- Compreender a mecânica do **cálculo por faixas cumulativas** (fatiamento de grandezas contínuas).
-- Escrever estruturas condicionais limpas (`if / else if / else`), evitando repetições e condições redundantes (por exemplo: evitar checar `kwh > 100 && kwh <= 200` quando o primeiro `if (kwh <= 100)` já garantiu que o valor é superior a 100).
-- Encapsular o resultado do faturamento em um registro imutável (`record EnergyBill`).
-- Aplicar proteção *fail-fast* com `IllegalArgumentException` para entradas com consumo negativo.
+## 2. Como Funciona o Fatiamento Cumulativo (A Analogia dos Baldes)
 
-## 3. Regras de Faturamento por Faixas
+Para compreender a mecânica de cálculo, imagine que o volume total de energia consumido ($C$) é um líquido despejado em uma sequência de **recipientes interligados de capacidades limitadas**:
 
-A tarifa de energia elétrica é calculada com base na seguinte tabela progressiva cumulativa:
+```text
+Consumo Total a Distribuir: 250 kWh
+=======================================================================
+[ Balde 1: Faixa Básica ]       Capacidade: até 100 kWh
+                                Enche 100 kWh  × R$ 0,50/kWh = R$ 50,00
+                                (Transborda 150 kWh para o Balde 2)
+-----------------------------------------------------------------------
+[ Balde 2: Faixa Moderada ]     Capacidade: até mais 100 kWh (de 100 a 200)
+                                Enche 100 kWh  × R$ 0,75/kWh = R$ 75,00
+                                (Transborda 50 kWh para o Balde 3)
+-----------------------------------------------------------------------
+[ Balde 3: Faixa Elevada ]      Capacidade: Ilimitada (tudo acima de 200)
+                                Recebe os 50 kWh restantes × R$ 1,00/kWh = R$ 50,00
+=======================================================================
+Custo Total de Energia = R$ 50,00 + R$ 75,00 + R$ 50,00 = R$ 175,00
+```
 
-| Faixa | Intervalo de Consumo (kWh) | Tarifa por kWh | Custo Máximo Acumulado da Faixa |
+### ⚠️ Onde os Iniciantes Costumam Errar?
+
+- **Erro comum (Tarifação Simples):** O programador olha a tabela, vê que $250\text{ kWh} > 200$, e calcula $250 \times 1{,}00 = \text{R\$} 250{,}00$. **Isso está incorreto!**
+- **Forma correta (Fatiamento Cumulativo):** O consumidor tem direito à tarifa mais barata nos primeiros $100\text{ kWh}$ (que custam $\text{R\$} 50{,}00$), à tarifa moderada nos próximos $100\text{ kWh}$ (que custam $\text{R\$} 75{,}00$), e **apenas o excedente além de 200 kWh** ($250 - 200 = 50\text{ kWh}$) é cobrado a $\text{R\$} 1{,}00$.
+
+---
+
+## 3. Tabela de Tarifas e Fórmulas Matemáticas
+
+| Faixa | Bloco de Consumo Faturado | Tarifa por kWh no Bloco | Custo Máximo que a Faixa Pode Gerar |
 | :---: | :--- | :---: | :---: |
-| **Faixa 1** | Até 100.0 kWh (inclusive) | **R$ 0,50** | R$ 50,00 (100 × 0,50) |
-| **Faixa 2** | De 100.01 até 200.0 kWh (inclusive) | **R$ 0,75** | R$ 75,00 (100 × 0,75) |
-| **Faixa 3** | Acima de 200.0 kWh | **R$ 1,00** | Proporcional ao excedente |
+| **Faixa 1** | Até os primeiros $100\text{ kWh}$ | **R$ 0,50** | $\text{R\$} 50{,}00$ ($100 \times 0{,}50$) |
+| **Faixa 2** | Próximos $100\text{ kWh}$ (trecho entre 100 e 200) | **R$ 0,75** | $\text{R\$} 75{,}00$ ($100 \times 0{,}75$) |
+| **Faixa 3** | Todo o excedente além de $200\text{ kWh}$ | **R$ 1,00** | Sem teto: $(C - 200) \times 1{,}00$ |
 
-### 3.1. Taxa Fixa de Iluminação Pública
+### Fórmulas Matemáticas por Caso
 
-Além do custo de consumo de energia, toda conta possui uma taxa fixa de **Iluminação Pública** no valor de **R$ 15,00**, devida inclusive para imóveis com consumo zero no mês (desde que o consumo não seja negativo).
+Seja $C$ o consumo mensal em $\text{kWh}$:
 
-$$\text{Valor Total da Fatura} = \text{Custo de Energia} + \text{Taxa de Iluminação Pública}$$
+1. **Caso 1: $C \le 100$**  
+   Todo o consumo cabe no primeiro bloco:
+   $$\text{Custo de Energia} = C \times 0{,}50$$
 
-### 3.2. Exemplos Práticos de Cálculo
+2. **Caso 2: $100 < C \le 200$**  
+   Os primeiros $100\text{ kWh}$ esgotam a Faixa 1, e o **excedente** $(C - 100)$ é faturado pela Faixa 2:
+   $$\text{Custo de Energia} = (100 \times 0{,}50) + \big((C - 100) \times 0{,}75\big)$$
 
-1. **Consumo de 0.0 kWh:**
-   - Custo de energia: $0{,}00$
-   - Taxa de iluminação: $15{,}00$
-   - Total da fatura: **R$ 15,00**
+3. **Caso 3: $C > 200$**  
+   A Faixa 1 e a Faixa 2 estão totalmente esgotadas ($\text{R\$} 50{,}00 + \text{R\$} 75{,}00 = \text{R\$} 125{,}00$). Apenas o **excedente** $(C - 200)$ é faturado pela Faixa 3:
+   $$\text{Custo de Energia} = (100 \times 0{,}50) + (100 \times 0{,}75) + \big((C - 200) \times 1{,}00\big)$$
 
-2. **Consumo de 80.0 kWh (pertence inteiramente à Faixa 1):**
-   - Faixa 1: $80 \times 0{,}50 = 40{,}00$
-   - Custo de energia: $40{,}00$
-   - Total da fatura: $40{,}00 + 15{,}00 =$ **R$ 55,00**
+---
 
-3. **Consumo de 150.0 kWh (atravessa a Faixa 1 e entra na Faixa 2):**
-   - Faixa 1 (primeiros 100 kWh): $100 \times 0{,}50 = 50{,}00$
-   - Faixa 2 (excedente de 50 kWh): $50 \times 0{,}75 = 37{,}50$
-   - Custo de energia: $50{,}00 + 37{,}50 = 87{,}50$
-   - Total da fatura: $87{,}50 + 15{,}00 =$ **R$ 102,50**
+## 4. Taxa de Iluminação Pública & Fatura Consolidada
 
-4. **Consumo de 250.0 kWh (atravessa as Faixas 1 e 2 e entra na Faixa 3):**
-   - Faixa 1 (100 kWh): $100 \times 0{,}50 = 50{,}00$
-   - Faixa 2 (100 kWh): $100 \times 0{,}75 = 75{,}00$
-   - Faixa 3 (excedente de 50 kWh além de 200): $50 \times 1{,}00 = 50{,}00$
-   - Custo de energia: $50{,}00 + 75{,}00 + 50{,}00 = 175{,}00$
-   - Total da fatura: $175{,}00 + 15{,}00 =$ **R$ 190,00**
+Além do custo de energia consumida por faixas, toda conta residencial possui uma taxa fixa de **Iluminação Pública** no valor de **R$ 15,00**, devida inclusive para imóveis com consumo zero no mês:
 
-## 4. Especificação dos Métodos
+$$\text{Valor Total da Fatura} = \text{Custo de Energia} + \text{R\$} 15{,}00$$
 
-### 4.1. `calculateEnergyCost`
+### Exemplos Completos de Fatura
+
+- **Consumo de 0.0 kWh:**  
+  Custo de energia: $\text{R\$} 0{,}00$ | Iluminação: $\text{R\$} 15{,}00$ | **Total: R$ 15,00**
+- **Consumo de 80.0 kWh:**  
+  Custo de energia: $80 \times 0{,}50 = \text{R\$} 40{,}00$ | Iluminação: $\text{R\$} 15{,}00$ | **Total: R$ 55,00**
+- **Consumo de 150.0 kWh:**  
+  Custo de energia: $50{,}00 + (50 \times 0{,}75) = 50{,}00 + 37{,}50 = \text{R\$} 87{,}50$ | Iluminação: $\text{R\$} 15{,}00$ | **Total: R$ 102,50**
+- **Consumo de 250.0 kWh:**  
+  Custo de energia: $50{,}00 + 75{,}00 + (50 \times 1{,}00) = \text{R\$} 175{,}00$ | Iluminação: $\text{R\$} 15{,}00$ | **Total: R$ 190,00**
+
+---
+
+## 5. Especificação dos Métodos
+
+### 5.1. `calculateEnergyCost`
 
 ```java
 public static double calculateEnergyCost(double consumptionKwh)
 ```
 
-- Calcula e retorna apenas a soma dos valores consumidos nas faixas progressivas.
+- Aplica as fórmulas de fatiamento cumulativo descritas acima.
 - Lança `IllegalArgumentException("O consumo não pode ser negativo")` se `consumptionKwh < 0`.
 
-### 4.2. `calculateBill`
+### 5.2. `calculateBill`
 
 ```java
 public static EnergyBill calculateBill(double consumptionKwh)
 ```
 
-- Retorna o relatório consolidado `EnergyBill` com os campos:
-  - `consumptionKwh`: consumo em kWh fornecido.
-  - `energyCost`: valor calculado da energia consumida.
-  - `publicLightingFee`: valor constante de R$ 15,00.
-  - `totalAmount`: soma do custo de energia com a taxa de iluminação.
-- Lança `IllegalArgumentException("O consumo não pode ser negativo")` se `consumptionKwh < 0`.
+- Retorna o registro imutável `EnergyBill` contendo:
+  - `consumptionKwh`: consumo faturado.
+  - `energyCost`: custo calculado pelo fatiamento.
+  - `publicLightingFee`: taxa constante de R$ 15,00.
+  - `totalAmount`: soma de `energyCost` e `publicLightingFee`.
+- Se `consumptionKwh < 0`, lança `IllegalArgumentException("O consumo não pode ser negativo")`.
 
-## 5. O que Você Deve Fazer
+---
+
+## 6. O que Você Deve Fazer
 
 1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex05/ProgressiveRateCalculator.java`.
-2. Implemente o método `calculateEnergyCost` estruturando as faixas com `if` / `else if` / `else` de maneira limpa e não redundante.
-3. Complete o método `calculateBill` compondo o retorno com o `record EnergyBill` já engatilhado.
-4. Execute os testes com `./mvnw test -pl :ex05-calculadora-tarifa-progressiva`.
+2. Implemente o método `calculateEnergyCost` estruturando as faixas com `if` / `else if` / `else` de maneira limpa (sem condições redundantes).
+3. Complete o método `calculateBill` compondo o retorno com o `record EnergyBill` já fornecido.
+4. Execute a suíte de testes:
+   ```bash
+   ./mvnw test -pl :ex05-calculadora-tarifa-progressiva
+   ```
 
-## 6. Critérios de Aceite
+## 7. Critérios de Aceite
 
 - Todos os testes da classe `ProgressiveRateCalculatorTest` devem passar com sucesso.
 - Consumos negativos devem ser rejeitados com `IllegalArgumentException`.
-- A composição dos custos em todas as faixas (básica, moderada e elevada) deve apresentar precisão centesimal correta.
+- A composição dos custos em todas as faixas e o cálculo de excedente devem apresentar precisão centesimal correta.
