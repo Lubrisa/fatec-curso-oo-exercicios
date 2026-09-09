@@ -24,24 +24,36 @@ Cada exercício evolui através do seguinte fluxo de estados:
 
 | Módulo | Total de Exercícios | DRAFT | BACKLOG | EXECUTANDO | REVISANDO | PRONTO |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **01 — Java Básico** | 7 | 6 | 0 | 0 | 0 | 1 |
+| **01 — Java Básico** | 19 | 18 | 0 | 0 | 0 | 1 |
 | **02 — Orientação a Objetos** | 16 | 16 | 0 | 0 | 0 | 0 |
 | **03 — Java In-Depth** | 8 | 8 | 0 | 0 | 0 | 0 |
-| **Total Geral** | **31** | **30** | **0** | **0** | **0** | **1** |
+| **Total Geral** | **43** | **42** | **0** | **0** | **0** | **1** |
 
 ---
 
-## 📦 Módulo 01 — Java Básico: Lógica Integradora & Algoritmos
+## 📦 Módulo 01 — Java Básico: Fundamentos & Coleções
 
 | ID / Diretório | Tema | Tipo | Status | Resumo da Proposta |
 | :--- | :--- | :--- | :---: | :--- |
-| `01-java-basico/ex01-calculadora-financeira` | Simulador Financeiro & Amortização | Lógica / Math | `PRONTO` | Cálculo de juros compostos, tabela SAC e Price, lidando com precisão de tipos, casting explícito e formatação monetária. |
-| `01-java-basico/ex02-crivo-eratostenes` | Crivo de Eratóstenes | Algoritmos / Arrays | `DRAFT` | Algoritmo de primalidade até $N$ com arrays booleanos primitivos, controle de laços aninhados e limites de corte. |
-| `01-java-basico/ex03-validador-documentos` | Validador de CPF / CNPJ | Strings / Controle | `DRAFT` | Validação completa de dígitos verificadores calculados por pesos, manipulação de strings (`charAt`, `substring`) e formatação. |
-| `01-java-basico/ex04-processador-csv-log` | Parser de Linhas CSV e Logs | Strings / Exceptions | `DRAFT` | Leitura e parsing de registros textuais com campos numéricos e datas; tratamento de linhas corrompidas com `try-catch` sem abortar o fluxo. |
-| `01-java-basico/ex05-analisador-frequencia` | Frequência de Termos Léxicos | Coleções (Map/Set) | `DRAFT` | Contagem de palavras em texto, remoção de stopwords com `HashSet` e ordenação alfabética natural com `TreeMap`/`TreeSet`. |
-| `01-java-basico/ex06-gerenciador-fila-atendimento` | Fila Bancária com Prioridade | Coleções (Queue/Deque) | `DRAFT` | Atendimento com filas prioritárias e convencionais (FIFO) integrado a histórico de operações/desfazer em pilha (LIFO). |
-| `01-java-basico/ex07-algoritmo-ordenacao-busca` | Insertion Sort & Busca Binária | Algoritmos | `DRAFT` | Implementação manual dos algoritmos em arrays primitivos para fixar indexação, trocas e complexidade algorítmica. |
+| `01-java-basico/ex01-conversor-temperatura` | Conversor Térmico | Service | `PRONTO` | Conversões Celsius, Fahrenheit e Kelvin. Precedência, divisão de ponto flutuante (`5.0/9.0` vs `5/9`) e validação de zero absoluto ($-273.15^\circ\text{C}$). |
+| `01-java-basico/ex02-calculadora-consumo-viagem` | Calculadora de Consumo de Viagem | Service | `DRAFT` | Distância, autonomia e combustível. Casting explícito (`int` para `double`) e formatação em 2 casas decimais. |
+| `01-java-basico/ex03-pegadinha-tipos-referencia` | O Mistério do Aliasing de Referências | Bugfix | `DRAFT` | Diagnóstico de mutação indesejada por compartilhamento de referência em memória vs cópia de primitivos. |
+| `01-java-basico/ex04-classificador-triangulos` | Classificador de Triângulos | Service | `DRAFT` | Desigualdade geométrica ($a < b + c$) e operadores lógicos (`&&`, `||`, `!`) para Equilátero, Isósceles ou Escaleno. |
+| `01-java-basico/ex05-calculadora-tarifa-progressiva` | Tarifador Progressivo de Energia | Service | `DRAFT` | Fatura por faixas cumulativas de consumo (kWh) com `if` / `else if` sem condições redundantes. |
+| `01-java-basico/ex06-gerador-tabuada-fatorial` | Gerador de Tabuada e Fatorial | Service | `DRAFT` | Laços `for` e `while`, contadores, acumuladores de produto e controle de overflow com `long`. |
+| `01-java-basico/ex07-verificador-numero-primo` | Verificador de Número Primo | Algoritmo | `DRAFT` | Verificação com laço otimizado até $\sqrt{N}$ e tratamento de casos especiais ($n \le 1$, pares). |
+| `01-java-basico/ex08-sequencia-fibonacci` | Sequência de Fibonacci | Algoritmo | `DRAFT` | Geração dos $N$ primeiros termos com variáveis de estado (`a`, `b`, `proximo`) em laço iterativo. |
+| `01-java-basico/ex09-validador-senha-forte` | Validador de Senha Forte | Service | `DRAFT` | Métodos de `String` (`length`, `charAt`) e inspeção de caracteres com `Character.isUpperCase`, `Character.isDigit`. |
+| `01-java-basico/ex10-analisador-palindromos` | Analisador de Palíndromos | Algoritmo | `DRAFT` | Verificação com dois ponteiros, sanitização de espaços e pontuação (`toLowerCase`, `Character.isLetterOrDigit`). |
+| `01-java-basico/ex11-estatisticas-vetor` | Estatísticas de Vetor | Service | `DRAFT` | Arrays `double[]`: média, menor valor, maior valor e tratamento de arrays vazios ou nulos. |
+| `01-java-basico/ex12-ordenacao-bubble-sort` | Ordenação com Bubble Sort | Algoritmo | `DRAFT` | Implementação manual do Bubble Sort em `int[]`, trocas (*swap*) e flag de interrupção precoce. |
+| `01-java-basico/ex13-busca-linear-binaria` | Busca Linear vs Busca Binária | Algoritmo | `DRAFT` | Comparação prática entre busca sequencial e binária em vetor ordenado com contagem de comparações. |
+| `01-java-basico/ex14-tabuleiro-jogo-velha` | Tabuleiro de Jogo da Velha | Service | `DRAFT` | Matrizes bidimensionais (`char[][]`), verificação de vitórias em linhas, colunas, diagonais e empate. |
+| `01-java-basico/ex15-gerenciador-tarefas-lista` | Gerenciador de Tarefas com List | Service | `DRAFT` | Operações essenciais da interface `List` (`ArrayList`): adicionar, remover por índice vs valor, `contains`. |
+| `01-java-basico/ex16-filtro-duplicados-conjunto` | Filtro de Itens Únicos com Set | Service | `DRAFT` | Eliminação natural de duplicatas com `HashSet`, união (`addAll`), interseção (`retainAll`) e diferença. |
+| `01-java-basico/ex17-dicionario-frequencia-mapa` | Dicionário de Frequência de Palavras | Service | `DRAFT` | Mapeamento chave-valor com `HashMap`: contagem com `getOrDefault`, `put` e iteração por `Map.Entry`. |
+| `01-java-basico/ex18-fila-atendimento-historico` | Fila de Atendimento com Histórico | Service | `DRAFT` | Fila FIFO (`Queue`) integrada a pilha LIFO (`Deque`) com suporte a "Desfazer última chamada". |
+| `01-java-basico/ex19-sandbox-performance-colecoes` | Laboratório de Coleções | Sandbox | `DRAFT` | Experimentos práticos comparando `ArrayList` vs `LinkedList` e `HashSet` vs `TreeSet` com preenchimento de `RELATORIO.md`. |
 
 ---
 
