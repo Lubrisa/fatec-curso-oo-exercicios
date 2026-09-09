@@ -10,36 +10,29 @@ Os arquivos resolvidos estão em:
 
 ## 2. Decisões Didáticas & Análise Conceitual
 
-### 2.1. Promoção de Tipos e Casting Explícito
+### 2.1. Métodos Especializados e Encadeamento de Dados
 
-No método `calculateLitersNeeded`, temos uma operação entre `int` e `double`:
+A arquitetura do exercício divide um problema em três etapas atômicas:
+1. `calculateLitersNeeded`: depende apenas da distância e da autonomia.
+2. `calculateTotalCost`: recebe diretamente a litragem já calculada e o preço por litro.
+3. `calculateCostPerKm`: recebe o custo total já apurado e a distância.
+
+Isso ensina ao aluno que um método não deve recalcular o que outro método já apurou, demonstrando como parâmetros e valores de retorno servem de canal de comunicação entre blocos lógicos.
+
+### 2.2. Promoção de Tipos e Casting Explícito
+
+No cálculo de litragem e de custo por quilômetro, temos operações envolvendo o inteiro `distanceInKm`:
 
 ```java
-// O compilador promove 'distanceInKm' para double automaticamente,
-// mas explicitar o casting comunica a intenção com clareza cristalina:
 return (double) distanceInKm / fuelEfficiencyKmPerLiter;
 ```
 
-Se a fórmula envolvesse dois inteiros (por exemplo, `int km / int horas`), a ausência do casting descartaria as casas decimais antes de atribuir a um `double`. Praticar o casting desde cedo desenvolve a disciplina mental necessária para lidar com o sistema de tipos do Java.
-
-### 2.2. Reuso e Composição de Métodos
-
-Em vez de repetir as fórmulas matemáticas dentro de `calculateSummary`, o método atua como um coordenador:
-
 ```java
-public static TripSummary calculateSummary(int distanceInKm, double fuelEfficiencyKmPerLiter, double pricePerLiter) {
-    double liters = calculateLitersNeeded(distanceInKm, fuelEfficiencyKmPerLiter);
-    double totalCost = calculateTotalCost(distanceInKm, fuelEfficiencyKmPerLiter, pricePerLiter);
-    double costPerKm = calculateCostPerKm(distanceInKm, fuelEfficiencyKmPerLiter, pricePerLiter);
-
-    return new TripSummary(distanceInKm, liters, totalCost, costPerKm);
-}
+return totalCost / (double) distanceInKm;
 ```
 
-Dessa forma:
-1. Qualquer ajuste futuro nas regras ou validações reflete automaticamente no resumo.
-2. Evita-se duplicação de código (princípio DRY — *Don't Repeat Yourself*).
+Embora o Java promova automaticamente um `int` para `double` quando o outro operando já é `double`, habituar os alunos a explicitarem o casting desenvolve consciência de tipos e evita o erro clássico de divisão inteira (`5 / 2 = 2` em vez de `2.5`).
 
-### 2.3. Modelagem Leve com `record`
+### 2.3. Facilitação Inicial com `record`
 
-A introdução do `record TripSummary` demonstra aos alunos como o Java moderno permite modelar transportadores de dados imutáveis de forma concisa, gerando automaticamente construtor canônico, *accessors*, `equals()`, `hashCode()` e `toString()`.
+Como a orientação a objetos formal (criação e instanciação de classes/records com `new`) ainda será apresentada nos módulos seguintes, deixar o retorno `new TripSummary(distanceInKm, litersNeeded, totalCost, costPerKm)` previamente preparado permite ao aluno focar 100% na lógica procedural, variáveis e controle de fluxo sem gerar sobrecarga cognitiva prematura.
