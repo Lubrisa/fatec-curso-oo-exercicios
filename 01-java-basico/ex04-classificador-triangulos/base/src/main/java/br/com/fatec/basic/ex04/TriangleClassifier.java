@@ -41,18 +41,4 @@ public final class TriangleClassifier {
         // TODO: Validar com isValidTriangle e retornar o TriangleType correspondente
         throw new UnsupportedOperationException("Método classify ainda não implementado");
     }
-
-    /**
-     * Calcula o perímetro do triângulo (soma dos três lados).
-     *
-     * @param sideA comprimento do primeiro lado
-     * @param sideB comprimento do segundo lado
-     * @param sideC comprimento do terceiro lado
-     * @return a soma dos comprimentos dos três lados
-     * @throws IllegalArgumentException se os lados não formarem um triângulo válido
-     */
-    public static double calculatePerimeter(double sideA, double sideB, double sideC) {
-        // TODO: Validar com isValidTriangle e retornar a soma dos lados
-        throw new UnsupportedOperationException("Método calculatePerimeter ainda não implementado");
-    }
 }

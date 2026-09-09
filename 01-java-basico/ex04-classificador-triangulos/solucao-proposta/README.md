@@ -16,7 +16,7 @@ O método `isValidTriangle` atua como a única fonte de verdade sobre a geometri
 1. Valida se os lados são estritamente positivos (`sideA > 0 && sideB > 0 && sideC > 0`).
 2. Avalia a desigualdade triangular: $(a + b > c) \land (a + c > b) \land (b + c > a)$.
 
-Os métodos `classify` e `calculatePerimeter` delegam a verificação a `isValidTriangle`:
+Os métodos de serviço, como `classify`, delegam a verificação a `isValidTriangle`:
 
 ```java
 if (!isValidTriangle(sideA, sideB, sideC)) {
@@ -24,7 +24,7 @@ if (!isValidTriangle(sideA, sideB, sideC)) {
 }
 ```
 
-Isso impede que as regras de negócio se repitam de maneira redundante em diferentes métodos da classe utilitária.
+Isso impede que as regras de negócio se repitam de maneira redundante na classe utilitária.
 
 ### 2.2. Ordem das Condições de Classificação
 

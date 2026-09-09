@@ -52,20 +52,4 @@ public final class TriangleClassifier {
 
         return TriangleType.SCALENE;
     }
-
-    /**
-     * Calcula o perímetro do triângulo (soma dos três lados).
-     *
-     * @param sideA comprimento do primeiro lado
-     * @param sideB comprimento do segundo lado
-     * @param sideC comprimento do terceiro lado
-     * @return a soma dos comprimentos dos três lados
-     * @throws IllegalArgumentException se os lados não formarem um triângulo válido
-     */
-    public static double calculatePerimeter(double sideA, double sideB, double sideC) {
-        if (!isValidTriangle(sideA, sideB, sideC)) {
-            throw new IllegalArgumentException(ERROR_INVALID_TRIANGLE);
-        }
-        return sideA + sideB + sideC;
-    }
 }

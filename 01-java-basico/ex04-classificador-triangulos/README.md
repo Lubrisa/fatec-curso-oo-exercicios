@@ -62,26 +62,15 @@ public static TriangleType classify(double sideA, double sideB, double sideC)
 - Se não for válido, lança `IllegalArgumentException("Os lados fornecidos não formam um triângulo válido")`.
 - Retorna o tipo correspondente: `TriangleType.EQUILATERAL`, `TriangleType.ISOSCELES` ou `TriangleType.SCALENE`.
 
-### 4.3. `calculatePerimeter`
-
-```java
-public static double calculatePerimeter(double sideA, double sideB, double sideC)
-```
-
-- Valida se os lados formam um triângulo válido chamando `isValidTriangle`.
-- Se não for válido, lança `IllegalArgumentException("Os lados fornecidos não formam um triângulo válido")`.
-- Retorna a soma dos três lados ($a + b + c$).
-
 ## 5. O que Você Deve Fazer
 
 1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex04/TriangleClassifier.java`.
 2. Implemente a verificação geométrica no método `isValidTriangle`.
 3. Complete o método `classify` utilizando estruturas `if` / `else if` organizadas com base no `isValidTriangle`.
-4. Complete o método `calculatePerimeter`.
-5. Execute a suíte de testes com `./mvnw test -pl :ex04-classificador-triangulos`.
+4. Execute a suíte de testes com `./mvnw test -pl :ex04-classificador-triangulos`.
 
 ## 6. Critérios de Aceite
 
 - Todos os testes da classe `TriangleClassifierTest` devem passar com sucesso.
-- As tentativas de classificar ou calcular o perímetro de triângulos degenerados ou inválidos devem lançar `IllegalArgumentException` com a mensagem `"Os lados fornecidos não formam um triângulo válido"`.
+- As tentativas de classificar triângulos degenerados ou inválidos devem lançar `IllegalArgumentException` com a mensagem `"Os lados fornecidos não formam um triângulo válido"`.
 - As classificações de `EQUILATERAL`, `ISOSCELES` e `SCALENE` devem ser estritamente corretas.

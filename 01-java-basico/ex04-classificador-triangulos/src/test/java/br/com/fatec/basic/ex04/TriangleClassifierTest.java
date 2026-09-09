@@ -1,6 +1,5 @@
 package br.com.fatec.basic.ex04;
 
-import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class TriangleClassifierTest {
 
     private static final String ERROR_INVALID = "Os lados fornecidos não formam um triângulo válido";
-    private static final Offset<Double> PRECISION = Offset.offset(0.001);
 
     @Nested
     @DisplayName("Validação da Condição de Existência (isValidTriangle)")
@@ -111,33 +109,6 @@ class TriangleClassifierTest {
         @DisplayName("Deve lançar IllegalArgumentException ao classificar triângulo inválido")
         void shouldThrowExceptionWhenClassifyingInvalidTriangle(double a, double b, double c) {
             assertThatThrownBy(() -> TriangleClassifier.classify(a, b, c))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ERROR_INVALID);
-        }
-    }
-
-    @Nested
-    @DisplayName("Cálculo do Perímetro (calculatePerimeter)")
-    class PerimeterTests {
-
-        @Test
-        @DisplayName("Deve calcular o perímetro de triângulo válido")
-        void shouldCalculatePerimeterForValidTriangle() {
-            double perimeter = TriangleClassifier.calculatePerimeter(3.0, 4.0, 5.0);
-            assertThat(perimeter).isCloseTo(12.0, PRECISION);
-        }
-
-        @Test
-        @DisplayName("Deve calcular o perímetro com valores decimais")
-        void shouldCalculatePerimeterWithDecimals() {
-            double perimeter = TriangleClassifier.calculatePerimeter(2.5, 3.5, 4.0);
-            assertThat(perimeter).isCloseTo(10.0, PRECISION);
-        }
-
-        @Test
-        @DisplayName("Deve lançar IllegalArgumentException ao calcular perímetro de triângulo inválido")
-        void shouldThrowExceptionWhenCalculatingPerimeterOfInvalidTriangle() {
-            assertThatThrownBy(() -> TriangleClassifier.calculatePerimeter(1.0, 2.0, 5.0))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(ERROR_INVALID);
         }
