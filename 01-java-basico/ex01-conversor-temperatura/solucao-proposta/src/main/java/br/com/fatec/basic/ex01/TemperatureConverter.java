@@ -8,17 +8,17 @@ public final class TemperatureConverter {
     /**
      * Constante que define o zero absoluto na escala Celsius (-273.15 °C).
      */
-    public static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
+    private static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
 
     /**
      * Constante que define o zero absoluto na escala Fahrenheit (-459.67 °F).
      */
-    public static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
+    private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
 
     /**
      * Constante que define o zero absoluto na escala Kelvin (0.0 K).
      */
-    public static final double ABSOLUTE_ZERO_KELVIN = 0.0;
+    private static final double ABSOLUTE_ZERO_KELVIN = 0.0;
 
     private static final String ERROR_BELOW_ABSOLUTE_ZERO = "Temperatura abaixo do zero absoluto";
 

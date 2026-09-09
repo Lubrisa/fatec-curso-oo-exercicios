@@ -6,20 +6,8 @@ package br.com.fatec.basic.ex01;
  */
 public final class TemperatureConverter {
 
-    /**
-     * Constante que define o zero absoluto na escala Celsius (-273.15 °C).
-     */
-    public static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
-
-    /**
-     * Constante que define o zero absoluto na escala Fahrenheit (-459.67 °F).
-     */
-    public static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
-
-    /**
-     * Constante que define o zero absoluto na escala Kelvin (0.0 K).
-     */
-    public static final double ABSOLUTE_ZERO_KELVIN = 0.0;
+    // Dica: declare constantes (static final) para representar os limites do zero absoluto
+    // e evitar "números mágicos" espalhados pelo código.
 
     private TemperatureConverter() {
         // Construtor privado para impedir instanciação de classe utilitária

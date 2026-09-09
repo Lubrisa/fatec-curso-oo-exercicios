@@ -28,9 +28,9 @@ Mesmo que a variável de destino seja declarada como `double`, a subexpressão `
 Em vez de repetir literais soltos como `-273.15` ou `273.15` em múltiplos métodos, declaramos constantes estáticas com nomes expressivos:
 
 ```java
-public static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
-public static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
-public static final double ABSOLUTE_ZERO_KELVIN = 0.0;
+private static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
+private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
+private static final double ABSOLUTE_ZERO_KELVIN = 0.0;
 ```
 
 Isso facilita a leitura, a manutenção e permite que os testes e clientes da classe reutilizem esses limites físicos de forma segura.
