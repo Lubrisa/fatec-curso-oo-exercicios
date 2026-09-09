@@ -24,10 +24,10 @@ Cada exercício evolui através do seguinte fluxo de estados:
 
 | Módulo | Total de Exercícios | DRAFT | BACKLOG | EXECUTANDO | REVISANDO | PRONTO |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **01 — Java Básico** | 19 | 12 | 0 | 0 | 0 | 7 |
+| **01 — Java Básico** | 19 | 11 | 0 | 0 | 0 | 8 |
 | **02 — Orientação a Objetos** | 16 | 16 | 0 | 0 | 0 | 0 |
 | **03 — Java In-Depth** | 8 | 8 | 0 | 0 | 0 | 0 |
-| **Total Geral** | **43** | **36** | **0** | **0** | **0** | **7** |
+| **Total Geral** | **43** | **35** | **0** | **0** | **0** | **8** |
 
 ---
 
@@ -42,7 +42,7 @@ Cada exercício evolui através do seguinte fluxo de estados:
 | `01-java-basico/ex05-calculadora-tarifa-progressiva` | Tarifador Progressivo de Energia | Service | `PRONTO` | Fatura por faixas cumulativas de consumo (kWh) com `if` / `else if` sem condições redundantes. |
 | `01-java-basico/ex06-gerador-tabuada-fatorial` | Gerador de Tabuada e Fatorial | Service | `PRONTO` | Laços `for` e `while`, contadores, acumuladores de produto e controle de overflow com `long`. |
 | `01-java-basico/ex07-verificador-numero-primo` | Verificador de Número Primo | Algoritmo | `PRONTO` | Verificação com laço otimizado até $\sqrt{N}$ e tratamento de casos especiais ($n \le 1$, pares). |
-| `01-java-basico/ex08-sequencia-fibonacci` | Sequência de Fibonacci | Algoritmo | `DRAFT` | Geração dos $N$ primeiros termos com variáveis de estado (`a`, `b`, `proximo`) em laço iterativo. |
+| `01-java-basico/ex08-sequencia-fibonacci` | Sequência de Fibonacci | Algoritmo | `PRONTO` | Geração dos $N$ primeiros termos com variáveis de estado (`a`, `b`, `proximo`) em laço iterativo. |
 | `01-java-basico/ex09-validador-senha-forte` | Validador de Senha Forte | Service | `DRAFT` | Métodos de `String` (`length`, `charAt`) e inspeção de caracteres com `Character.isUpperCase`, `Character.isDigit`. |
 | `01-java-basico/ex10-analisador-palindromos` | Analisador de Palíndromos | Algoritmo | `DRAFT` | Verificação com dois ponteiros, sanitização de espaços e pontuação (`toLowerCase`, `Character.isLetterOrDigit`). |
 | `01-java-basico/ex11-estatisticas-vetor` | Estatísticas de Vetor | Service | `DRAFT` | Arrays `double[]`: média, menor valor, maior valor e tratamento de arrays vazios ou nulos. |
