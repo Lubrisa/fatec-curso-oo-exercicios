@@ -2,6 +2,9 @@ package br.com.fatec.basic.ex06;
 
 /**
  * Implementação de referência para geração de tabuadas e cálculo de fatoriais com laços iterativos.
+ *
+ * <p>Inclui a solução otimizada do desafio opcional em O(end) reaproveitando o cálculo
+ * da posição anterior via recorrência matemática (memoization no próprio vetor).</p>
  */
 public final class TableAndFactorialGenerator {
 
@@ -62,6 +65,9 @@ public final class TableAndFactorialGenerator {
     /**
      * Calcula os fatoriais de uma faixa fechada de números inteiros [start, end].
      *
+     * <p>Implementação do Desafio Opcional com complexidade O(end): calcula o termo inicial
+     * uma única vez e preenche os termos subsequentes aproveitando a relação N! = (N - 1)! * N.</p>
+     *
      * @param start valor inicial da faixa (deve ser >= 0)
      * @param end   valor final da faixa (deve ser <= 20 e >= start)
      * @return array contendo os fatoriais de cada número no intervalo
@@ -80,9 +86,16 @@ public final class TableAndFactorialGenerator {
 
         int size = end - start + 1;
         long[] factorials = new long[size];
-        for (int i = 0; i < size; i++) {
-            factorials[i] = calculateFactorial(start + i);
+
+        // 1. Calcula o primeiro elemento da faixa (caso base do intervalo)
+        factorials[0] = calculateFactorial(start);
+
+        // 2. Desafio O(end): reaproveita o resultado anterior para calcular o próximo
+        for (int i = 1; i < size; i++) {
+            int currentNumber = start + i;
+            factorials[i] = factorials[i - 1] * currentNumber;
         }
+
         return factorials;
     }
 }

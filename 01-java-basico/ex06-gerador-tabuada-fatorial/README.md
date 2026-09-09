@@ -128,11 +128,26 @@ public static long[] calculateFactorialsInRange(int start, int end)
 1. Abra a classe `src/main/java/br/com/fatec/basic/ex06/TableAndFactorialGenerator.java`.
 2. Implemente o método `generateMultiplicationTable` utilizando um laço iterativo e preenchendo o vetor de retorno.
 3. Implemente o cálculo de `calculateFactorial` com controle de limites e acumulador `long`.
-4. Implemente `calculateFactorialsInRange` reaproveitando `calculateFactorial`.
+4. Implemente `calculateFactorialsInRange` preenchendo o array com os fatoriais correspondentes.
 5. Execute a suíte de testes:
    ```bash
    ./mvnw test -pl :ex06-gerador-tabuada-fatorial
    ```
+
+---
+
+> ### 💡 Desafio Opcional de Eficiência: Otimização para O(end)
+>
+> Reaproveitar o método `calculateFactorial` para cada elemento dentro de um laço é uma solução inicial válida e eficaz, mas esse algoritmo executa com uma complexidade de tempo de **O(end²)**.
+>
+> Isso significa que para gerar o intervalo de 0 até 20, o computador recalcula multiplicações repetidas do zero (por exemplo: recalcula 1 × 2 × ... × 19 só para achar o 19!, e logo em seguida recalcula tudo de novo do zero para achar o 20!), realizando **190 multiplicações** no total.
+>
+> **Agora, existe uma forma de realizar essa operação inteira em tempo linear O(end), com apenas 19 multiplicações no total. Você consegue descobrir como?**
+>
+> 🔍 **Dica:** Depois de executar `calculateFactorial` pela primeira vez para encontrar o valor inicial da faixa (`start!`), você realmente precisa chamá-lo de novo para calcular os outros números? Olhe atentamente para a definição matemática do fatorial:  
+> ```text
+> N! = (N - 1)! * N
+> ```
 
 ## 6. Critérios de Aceite
 
