@@ -21,13 +21,13 @@
 
    ```java
    /**
-    * Calculates the interest amortization schedule for a given loan request.
+    * Calcula o cronograma de amortização de juros para uma solicitação de empréstimo.
     *
-    * @param principal the initial borrowed capital, must be strictly positive
-    * @param annualRate the annual interest rate expressed as a decimal
-    * @param termInMonths the loan duration in months
-    * @return an unmodifiable list of monthly payment records
-    * @throws IllegalArgumentException if any numeric parameter violates constraints
+    * @param principal o capital inicial emprestado, deve ser estritamente positivo
+    * @param annualRate a taxa de juros anual expressa em formato decimal
+    * @param termInMonths a duração do empréstimo em meses
+    * @return uma lista não-modificável com os registros mensais de pagamento
+    * @throws IllegalArgumentException se algum parâmetro numérico violar as restrições
     */
    List<PaymentSchedule> calculateSchedule(BigDecimal principal, BigDecimal annualRate, int termInMonths);
    ```

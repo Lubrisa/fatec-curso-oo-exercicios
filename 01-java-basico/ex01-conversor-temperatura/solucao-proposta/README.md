@@ -41,6 +41,6 @@ A validação de argumentos é executada no início do método (*guard clause*),
 
 ```java
 if (celsius < ABSOLUTE_ZERO_CELSIUS) {
-    throw new IllegalArgumentException("Temperature below absolute zero");
+    throw new IllegalArgumentException("Temperatura abaixo do zero absoluto");
 }
 ```

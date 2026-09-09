@@ -67,7 +67,7 @@ $$C = K - 273.15$$
    - Sempre que um valor de entrada violar essa restrição física, o método deve lançar:
 
    ```java
-   throw new IllegalArgumentException("Temperature below absolute zero");
+   throw new IllegalArgumentException("Temperatura abaixo do zero absoluto");
    ```
 
 3. **Constantes:**

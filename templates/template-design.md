@@ -21,10 +21,10 @@
 
    ```java
    /**
-    * Representation of a customer profile.
+    * Representação imutável do perfil de um cliente no sistema.
     *
-    * @param id the unique customer identifier
-    * @param name the customer's full name
+    * @param id identificador único do cliente
+    * @param name nome completo do cliente
     */
    public record Customer(String id, String name) {}
    ```

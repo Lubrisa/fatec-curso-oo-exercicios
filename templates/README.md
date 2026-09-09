@@ -4,13 +4,13 @@ Este diretório formaliza os padrões de documentação (`README.md`) para cada 
 
 ## Diretrizes Gerais Obrigatórias para Todo Exercício
 
-1. **Código em Inglês:**
-   - Todos os identificadores de código (nomes de classes, interfaces, records, métodos, variáveis, pacotes e exceções) devem ser estritamente em **inglês**.
-   - Comentários e mensagens de exceção podem ser em português se agregarem valor didático.
+1. **Código em Inglês (Identificadores):**
+   - Todos os identificadores de código (nomes de classes, interfaces, records, métodos, variáveis, parâmetros, constantes, pacotes e exceções) devem ser estritamente em **inglês**.
 
-2. **Documentação da API Pública (Javadoc):**
-   - Todas as classes, interfaces, records, enums e métodos/construtores `public` devem conter comentários no padrão Javadoc (`/** ... */`).
-   - Tags essenciais a incluir quando aplicável: `@param`, `@return`, `@throws`.
+2. **Documentação e Comentários em Português:**
+   - Todos os comentários de código (tanto comentários explicativos quanto documentais Javadoc `/** ... */`) devem ser escritos em **português**.
+   - As tags Javadoc (`@param`, `@return`, `@throws`) devem explicar os contratos claramente em português.
+   - Mensagens de exceção de domínio e descrições de testes (`@DisplayName`) também devem ser em português para facilitar a leitura e o aprendizado dos alunos.
 
 3. **Estilo Markdown:**
    - Não utilizar linhas horizontais divisórias (`---`) entre seções.

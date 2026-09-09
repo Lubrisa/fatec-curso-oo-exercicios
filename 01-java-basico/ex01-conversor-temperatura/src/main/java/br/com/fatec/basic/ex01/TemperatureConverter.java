@@ -1,78 +1,79 @@
 package br.com.fatec.basic.ex01;
 
 /**
- * Utility class providing conversions between Celsius, Fahrenheit, and Kelvin temperature scales.
+ * Classe utilitária responsável pela conversão de temperaturas entre as escalas
+ * Celsius, Fahrenheit e Kelvin.
  */
 public final class TemperatureConverter {
 
     /**
-     * Absolute zero constant in Celsius scale (-273.15 °C).
+     * Constante que define o zero absoluto na escala Celsius (-273.15 °C).
      */
     public static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
 
     /**
-     * Absolute zero constant in Fahrenheit scale (-459.67 °F).
+     * Constante que define o zero absoluto na escala Fahrenheit (-459.67 °F).
      */
     public static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
 
     /**
-     * Absolute zero constant in Kelvin scale (0.0 K).
+     * Constante que define o zero absoluto na escala Kelvin (0.0 K).
      */
     public static final double ABSOLUTE_ZERO_KELVIN = 0.0;
 
     private TemperatureConverter() {
-        // Utility class: prevent direct instantiation
+        // Construtor privado para impedir instanciação de classe utilitária
     }
 
     /**
-     * Converts a temperature value from Celsius to Fahrenheit.
-     * Formula: (celsius * 9/5) + 32
+     * Converte um valor de temperatura da escala Celsius para Fahrenheit.
+     * Fórmula: (celsius * 9/5) + 32
      *
-     * @param celsius the temperature in Celsius, must not be below absolute zero (-273.15 °C)
-     * @return the equivalent temperature in Fahrenheit
-     * @throws IllegalArgumentException if the provided temperature is below absolute zero
+     * @param celsius a temperatura em Celsius, não pode ser inferior ao zero absoluto (-273.15 °C)
+     * @return a temperatura equivalente na escala Fahrenheit
+     * @throws IllegalArgumentException se a temperatura informada for inferior ao zero absoluto
      */
     public static double celsiusToFahrenheit(double celsius) {
-        // TODO: Validate lower bound and implement conversion
-        throw new UnsupportedOperationException("Method celsiusToFahrenheit not implemented yet");
+        // TODO: Validar o limite inferior e implementar o cálculo de conversão
+        throw new UnsupportedOperationException("Método celsiusToFahrenheit ainda não implementado");
     }
 
     /**
-     * Converts a temperature value from Fahrenheit to Celsius.
-     * Formula: (fahrenheit - 32) * 5/9
+     * Converte um valor de temperatura da escala Fahrenheit para Celsius.
+     * Fórmula: (fahrenheit - 32) * 5/9
      *
-     * @param fahrenheit the temperature in Fahrenheit, must not be below absolute zero (-459.67 °F)
-     * @return the equivalent temperature in Celsius
-     * @throws IllegalArgumentException if the provided temperature is below absolute zero
+     * @param fahrenheit a temperatura em Fahrenheit, não pode ser inferior ao zero absoluto (-459.67 °F)
+     * @return a temperatura equivalente na escala Celsius
+     * @throws IllegalArgumentException se a temperatura informada for inferior ao zero absoluto
      */
     public static double fahrenheitToCelsius(double fahrenheit) {
-        // TODO: Validate lower bound and implement conversion
-        throw new UnsupportedOperationException("Method fahrenheitToCelsius not implemented yet");
+        // TODO: Validar o limite inferior e implementar o cálculo de conversão
+        throw new UnsupportedOperationException("Método fahrenheitToCelsius ainda não implementado");
     }
 
     /**
-     * Converts a temperature value from Celsius to Kelvin.
-     * Formula: celsius + 273.15
+     * Converte um valor de temperatura da escala Celsius para Kelvin.
+     * Fórmula: celsius + 273.15
      *
-     * @param celsius the temperature in Celsius, must not be below absolute zero (-273.15 °C)
-     * @return the equivalent temperature in Kelvin
-     * @throws IllegalArgumentException if the provided temperature is below absolute zero
+     * @param celsius a temperatura em Celsius, não pode ser inferior ao zero absoluto (-273.15 °C)
+     * @return a temperatura equivalente na escala Kelvin
+     * @throws IllegalArgumentException se a temperatura informada for inferior ao zero absoluto
      */
     public static double celsiusToKelvin(double celsius) {
-        // TODO: Validate lower bound and implement conversion
-        throw new UnsupportedOperationException("Method celsiusToKelvin not implemented yet");
+        // TODO: Validar o limite inferior e implementar o cálculo de conversão
+        throw new UnsupportedOperationException("Método celsiusToKelvin ainda não implementado");
     }
 
     /**
-     * Converts a temperature value from Kelvin to Celsius.
-     * Formula: kelvin - 273.15
+     * Converte um valor de temperatura da escala Kelvin para Celsius.
+     * Fórmula: kelvin - 273.15
      *
-     * @param kelvin the temperature in Kelvin, must not be below absolute zero (0.0 K)
-     * @return the equivalent temperature in Celsius
-     * @throws IllegalArgumentException if the provided temperature is below absolute zero
+     * @param kelvin a temperatura em Kelvin, não pode ser inferior ao zero absoluto (0.0 K)
+     * @return a temperatura equivalente na escala Celsius
+     * @throws IllegalArgumentException se a temperatura informada for inferior ao zero absoluto
      */
     public static double kelvinToCelsius(double kelvin) {
-        // TODO: Validate lower bound and implement conversion
-        throw new UnsupportedOperationException("Method kelvinToCelsius not implemented yet");
+        // TODO: Validar o limite inferior e implementar o cálculo de conversão
+        throw new UnsupportedOperationException("Método kelvinToCelsius ainda não implementado");
     }
 }
