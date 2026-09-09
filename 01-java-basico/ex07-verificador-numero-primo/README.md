@@ -152,6 +152,24 @@ public static long[] findPrimesInRange(long start, long end)
 > ```
 > Multiplicar inteiros (`d * d`) é uma instrução que roda em um único ciclo de clock na CPU, sendo ordens de grandeza mais rápida que a radiciação de ponto flutuante! *(Apenas atente-se para números próximos de `Long.MAX_VALUE` onde `d * d` poderia estourar).*
 
+---
+
+> ### 🌟 Desafio Opcional: A Peneira de Eratóstenes (O(N log log N))
+>
+> No método `findPrimesInRange`, iterar número a número testando `isPrime(current)` funciona e passa em todos os testes, mas tem complexidade de tempo de **O((end - start) × √end)**.
+>
+> Para um intervalo grande (como buscar todos os primos até 1.000.000), o processador precisa rodar a lógica de divisão milhares de vezes repetidas.
+>
+> Há mais de 2.200 anos, o matemático grego Eratóstenes descobriu que existe uma forma revolucionária de encontrar todos os primos de uma lista em tempo quase linear: em vez de testar cada número para descobrir se ele é primo, **que tal fazer o caminho inverso?**
+>
+> 🔍 **Dica de Reflexão:**  
+> Imagine uma lista ou tabela de números onde todos começam considerados "potenciais primos".  
+> - Se você sabe que **2** é primo, o que você já sabe com 100% de certeza sobre **4, 6, 8, 10, 12...**?  
+> - Se você sabe que **3** é primo, o que você já sabe sobre **6, 9, 12, 15, 18...**?  
+>
+> Você consegue utilizar um vetor booleano para "riscar" (marcar como composto) todos os múltiplos dos primos que você for encontrando e deixar sobrar apenas os primos genuínos?  
+> Pesquise sobre o **Crivo de Eratóstenes** (*Sieve of Eratosthenes*) e tente implementar essa estratégia no método `findPrimesInRange`!
+
 ## 6. Critérios de Aceite
 
 - Todos os testes da classe `PrimeNumberCheckerTest` devem passar com sucesso (`BUILD SUCCESS`).

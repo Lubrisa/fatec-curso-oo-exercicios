@@ -52,3 +52,35 @@ Como neste ponto da trilha ainda não introduzimos oficialmente a coleção `Lis
 A solução elegante divide o problema em duas etapas:
 1. `countPrimes`: determina a contagem precisa de elementos.
 2. `findPrimesInRange`: aloca o vetor com `new long[count]` e preenche sequencialmente sem desperdício de memória nem elementos nulos.
+
+### 2.5. Resolução do Desafio Opcional: O Crivo de Eratóstenes
+
+Para gerar todos os primos até um limite superior $N$, a abordagem ingênua realiza testes de primalidade individuais:
+- **Custo Ingênuo:** $O(N \sqrt{N})$ operações.
+
+O **Crivo de Eratóstenes** inverte a lógica: em vez de testar divisibilidade, ele realiza eliminações por marcação booleana:
+1. Cria-se um vetor booleano `boolean[] isComposite = new boolean[n + 1]`.
+2. Marca-se `0` e `1` como compostos.
+3. Para cada número $p$ a partir de 2, se ele ainda não estiver marcado, ele é primo.
+4. Em seguida, marcam-se todos os seus múltiplos $p^2, p^2 + p, p^2 + 2p, \dots \le N$ como compostos (`isComposite[m] = true`).
+5. Repete-se esse processo enquanto $p \times p \le N$.
+
+```java
+// Implementação do Crivo para limites moderados (onde end cabe na memória como int):
+int limit = (int) end;
+boolean[] isComposite = new boolean[limit + 1];
+isComposite[0] = true;
+if (limit >= 1) isComposite[1] = true;
+
+for (int p = 2; p * p <= limit; p++) {
+    if (!isComposite[p]) {
+        for (int multiple = p * p; multiple <= limit; multiple += p) {
+            isComposite[multiple] = true;
+        }
+    }
+}
+```
+
+- **Complexidade Assintótica:** $O(N \log(\log N))$, o que na prática é virtualmente indistinguível de tempo linear $O(N)$.
+- **Trade-off de Engenharia:** O Crivo requer espaço adicional de memória $O(N)$ para a tabela booleana, exemplificando a clássica troca entre tempo de CPU e consumo de memória (*Time-Memory Trade-off*).
+
