@@ -34,6 +34,7 @@
         <module>01-java-basico/ex02-calculadora-consumo-viagem</module>
         <module>01-java-basico/ex03-pegadinha-tipos-referencia</module>
         <module>01-java-basico/ex04-classificador-triangulos</module>
+        <module>01-java-basico/ex05-calculadora-tarifa-progressiva</module>
     </modules>
 
     <dependencyManagement>

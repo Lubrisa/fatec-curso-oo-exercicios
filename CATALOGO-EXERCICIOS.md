@@ -24,10 +24,10 @@ Cada exercício evolui através do seguinte fluxo de estados:
 
 | Módulo | Total de Exercícios | DRAFT | BACKLOG | EXECUTANDO | REVISANDO | PRONTO |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **01 — Java Básico** | 19 | 15 | 0 | 0 | 0 | 4 |
+| **01 — Java Básico** | 19 | 14 | 0 | 0 | 0 | 5 |
 | **02 — Orientação a Objetos** | 16 | 16 | 0 | 0 | 0 | 0 |
 | **03 — Java In-Depth** | 8 | 8 | 0 | 0 | 0 | 0 |
-| **Total Geral** | **43** | **39** | **0** | **0** | **0** | **4** |
+| **Total Geral** | **43** | **38** | **0** | **0** | **0** | **5** |
 
 ---
 
@@ -39,7 +39,7 @@ Cada exercício evolui através do seguinte fluxo de estados:
 | `01-java-basico/ex02-calculadora-consumo-viagem` | Calculadora de Consumo de Viagem | Service | `PRONTO` | Distância, autonomia e combustível. Casting explícito (`int` para `double`) e composição de relatório imutável com `record`. |
 | `01-java-basico/ex03-pegadinha-tipos-referencia` | O Mistério do Aliasing de Referências | Bugfix | `PRONTO` | Diagnóstico de mutação indesejada por compartilhamento de referência em memória vs cópia de primitivos. |
 | `01-java-basico/ex04-classificador-triangulos` | Classificador de Triângulos | Service | `PRONTO` | Desigualdade geométrica ($a < b + c$) e operadores lógicos (`&&`, `||`, `!`) para Equilátero, Isósceles ou Escaleno. |
-| `01-java-basico/ex05-calculadora-tarifa-progressiva` | Tarifador Progressivo de Energia | Service | `DRAFT` | Fatura por faixas cumulativas de consumo (kWh) com `if` / `else if` sem condições redundantes. |
+| `01-java-basico/ex05-calculadora-tarifa-progressiva` | Tarifador Progressivo de Energia | Service | `PRONTO` | Fatura por faixas cumulativas de consumo (kWh) com `if` / `else if` sem condições redundantes. |
 | `01-java-basico/ex06-gerador-tabuada-fatorial` | Gerador de Tabuada e Fatorial | Service | `DRAFT` | Laços `for` e `while`, contadores, acumuladores de produto e controle de overflow com `long`. |
 | `01-java-basico/ex07-verificador-numero-primo` | Verificador de Número Primo | Algoritmo | `DRAFT` | Verificação com laço otimizado até $\sqrt{N}$ e tratamento de casos especiais ($n \le 1$, pares). |
 | `01-java-basico/ex08-sequencia-fibonacci` | Sequência de Fibonacci | Algoritmo | `DRAFT` | Geração dos $N$ primeiros termos com variáveis de estado (`a`, `b`, `proximo`) em laço iterativo. |
