@@ -33,6 +33,7 @@
         <module>01-java-basico/ex01-conversor-temperatura</module>
         <module>01-java-basico/ex02-calculadora-consumo-viagem</module>
         <module>01-java-basico/ex03-pegadinha-tipos-referencia</module>
+        <module>01-java-basico/ex04-classificador-triangulos</module>
     </modules>
 
     <dependencyManagement>
