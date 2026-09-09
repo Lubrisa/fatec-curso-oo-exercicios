@@ -22,62 +22,106 @@ Você foi contratado pela concessionária para implementar a classe utilitária 
 
 ## 3. Regras de Negócio & Mecânica de Faturamento
 
-### 3.1. A Mecânica do Fatiamento por Excedente (A Analogia dos Baldes)
+### 3.1. A Mecânica do Fatiamento (A Barra de Progresso do Consumo)
 
-Para compreender como as faixas se comportam, imagine que o consumo total em kWh é uma quantidade de água despejada em baldes interligados com capacidades limitadas:
+Para compreender como as faixas se comportam, imagine o consumo total de energia como uma barra de progresso horizontal que avança ao longo de marcos de corte:
+
+#### 1. A Régua Base (Capacidades e Tarifas de Cada Segmento)
 
 ```text
-Consumo Total: 250 kWh
-=======================================================================
-[ Balde 1: Faixa Básica ]       Capacidade: até 100 kWh
-                                Enche 100 kWh × R$ 0,50/kWh = R$ 50,00
-                                (Transborda 150 kWh para o Balde 2)
------------------------------------------------------------------------
-[ Balde 2: Faixa Moderada ]     Capacidade: até mais 100 kWh (de 100 a 200)
-                                Enche 100 kWh × R$ 0,75/kWh = R$ 75,00
-                                (Transborda 50 kWh para o Balde 3)
------------------------------------------------------------------------
-[ Balde 3: Faixa Elevada ]      Capacidade: Ilimitada (tudo acima de 200)
-                                Recebe os 50 kWh restantes × R$ 1,00/kWh = R$ 50,00
-=======================================================================
-Custo Total de Energia = R$ 50,00 + R$ 75,00 + R$ 50,00 = R$ 175,00
+[ 0.0 kWh ]──────────────[ 100.0 kWh ]──────────────[ 200.0 kWh ]──────────────► (sem teto)
+     │                          │                          │
+     └─── Faixa 1 (máx 100) ────┴─── Faixa 2 (máx 100) ────┴─── Faixa 3 (excedente) ───►
+             R$ 0,50 / kWh              R$ 0,75 / kWh              R$ 1,00 / kWh
 ```
 
-> **Atenção (Armadilha de Iniciante):**  
-> Não multiplique todo o consumo pela tarifa mais alta (`250 × 1,00 = R$ 250,00`).  
-> Apenas a parcela que **excede o limite inferior de cada faixa** deve ser tarifada com o novo valor.
+---
 
-### 3.2. Tabela de Tarifas por Faixa
+#### 2. Exemplo Parcial: Consumo de 150.0 kWh
 
-| Faixa | Bloco de Consumo Faturado | Tarifa por kWh | Custo Máximo do Bloco |
+A barra preenche completamente os primeiros 100 kWh da Faixa 1 e avança parcialmente até a metade da Faixa 2:
+
+```text
+[ 0 kWh ]════════════════[ 100 kWh ]═════════[ 150 kWh ] - - - - [ 200 kWh ] - - - - - - - -►
+    │                         │                   │
+    └──── Faixa 1 (Cheia) ────┴─ Faixa 2 (Parcial)┴── Faixa 2 (Vazia) ──┴── Faixa 3 (Vazia) ─►
+          100 kWh × R$ 0,50        50 kWh × R$ 0,75
+            = R$ 50,00               = R$ 37,50
+
+Custo de Energia = R$ 50,00 + R$ 37,50 = R$ 87,50
+```
+
+---
+
+#### 3. Exemplo com Excedente: Consumo de 250.0 kWh
+
+A barra preenche integralmente as Faixas 1 e 2 (totalizando 200 kWh) e **transborda 50 kWh** para a Faixa 3:
+
+```text
+[ 0 kWh ]════════════════[ 100 kWh ]════════════════[ 200 kWh ]═════════[ 250 kWh ] - - - - -►
+    │                         │                         │                   │
+    └──── Faixa 1 (Cheia) ────┴──── Faixa 2 (Cheia) ────┴─ Faixa 3 (Exced.) ┴─ Faixa 3 Livre ─►
+          100 kWh × R$ 0,50         100 kWh × R$ 0,75        50 kWh × R$ 1,00
+            = R$ 50,00                = R$ 75,00               = R$ 50,00
+
+Custo de Energia = R$ 50,00 + R$ 75,00 + R$ 50,00 = R$ 175,00
+```
+
+> **Atenção (Armadilha Clássica):**  
+> Nunca multiplique o consumo total pela tarifa mais alta (`250 × 1,00 = R$ 250,00`).  
+> O consumidor tem direito à tarifa menor nos blocos iniciais; apenas o excedente além de cada patamar é faturado pela nova alíquota.
+
+---
+
+### 3.2. Demonstrativo Detalhado de Faturamento (Simulação de 250 kWh)
+
+O faturamento final equivale ao extrato detalhado impresso no verso de uma conta de energia elétrica:
+
+| Parcela / Bloco Faturado | Volume Efetivo no Bloco | Tarifa Unitária | Subtotal da Parcela |
+| :--- | :---: | :---: | :---: |
+| **Parcela Faixa 1** (primeiros 100 kWh) | 100.0 kWh | R$ 0,50 / kWh | R$ 50,00 |
+| **Parcela Faixa 2** (consumo entre 100 e 200 kWh) | 100.0 kWh | R$ 0,75 / kWh | R$ 75,00 |
+| **Parcela Faixa 3** (excedente acima de 200 kWh) | 50.0 kWh | R$ 1,00 / kWh | R$ 50,00 |
+| **Subtotal Consumo de Energia** | **250.0 kWh** | — | **R$ 175,00** |
+| **Taxa Fixa de Iluminação Pública** | — | — | R$ 15,00 |
+| **TOTAL A PAGAR NA FATURA** | — | — | **R$ 190,00** |
+
+---
+
+### 3.3. Tabela de Tarifas & Fórmulas Matemáticas
+
+| Faixa | Intervalo de Consumo no Bloco | Tarifa por kWh | Custo Máximo Acumulado no Bloco |
 | :---: | :--- | :---: | :---: |
-| **Faixa 1** | Primeiros 100 kWh (até 100.0) | **R$ 0,50** | **R$ 50,00** (100 × 0,50) |
-| **Faixa 2** | Próximos 100 kWh (de 100.0 a 200.0) | **R$ 0,75** | **R$ 75,00** (100 × 0,75) |
+| **Faixa 1** | Primeiros 100.0 kWh | **R$ 0,50** | **R$ 50,00** (100 × 0,50) |
+| **Faixa 2** | Próximos 100.0 kWh (de 100.0 a 200.0) | **R$ 0,75** | **R$ 75,00** (100 × 0,75) |
 | **Faixa 3** | Excedente além de 200.0 kWh | **R$ 1,00** | Proporcional ao excedente |
 
 Fórmulas matemáticas para o consumo `C`:
-- **Se `C <= 100`:** `Custo = C * 0.50`
-- **Se `100 < C <= 200`:** `Custo = (100 * 0.50) + ((C - 100) * 0.75)`
-- **Se `C > 200`:** `Custo = (100 * 0.50) + (100 * 0.75) + ((C - 200) * 1.00)`
+- **Se `C <= 100.0`:**  
+  `Custo = C * 0.50`
+- **Se `100.0 < C <= 200.0`:**  
+  `Custo = (100.0 * 0.50) + ((C - 100.0) * 0.75)`
+- **Se `C > 200.0`:**  
+  `Custo = (100.0 * 0.50) + (100.0 * 0.75) + ((C - 200.0) * 1.00)`
 
-### 3.3. Taxa Fixa de Iluminação Pública
+---
 
-Além do custo de consumo de energia, toda conta residencial possui uma taxa fixa de **Iluminação Pública** no valor de **R$ 15,00**, devida inclusive para imóveis com consumo zero no mês (desde que o consumo não seja negativo):
+### 3.4. Taxa Fixa de Iluminação Pública & Exemplos Consolidados
+
+Toda fatura residencial inclui uma taxa fixa de **Iluminação Pública** no valor de **R$ 15,00**, devida inclusive para imóveis com consumo zero no ciclo:
 
 ```text
 Valor Total da Fatura = Custo de Energia + R$ 15,00
 ```
 
-### 3.4. Exemplos de Faturas Consolidadas
-
-1. **0.0 kWh:** Custo Energia: R$ 0,00 | Iluminação: R$ 15,00 | **Total: R$ 15,00**
-2. **80.0 kWh:** Custo Energia: `80 * 0,50 = R$ 40,00` | Iluminação: R$ 15,00 | **Total: R$ 55,00**
-3. **150.0 kWh:** Custo Energia: `50,00 + (50 * 0,75) = R$ 87,50` | Iluminação: R$ 15,00 | **Total: R$ 102,50**
-4. **250.0 kWh:** Custo Energia: `50,00 + 75,00 + (50 * 1,00) = R$ 175,00` | Iluminação: R$ 15,00 | **Total: R$ 190,00**
+1. **Consumo de 0.0 kWh:** Custo de Energia: R$ 0,00 | Iluminação: R$ 15,00 | **Total: R$ 15,00**
+2. **Consumo de 80.0 kWh:** Custo de Energia: `80 * 0,50 = R$ 40,00` | Iluminação: R$ 15,00 | **Total: R$ 55,00**
+3. **Consumo de 150.0 kWh:** Custo de Energia: `50,00 + (50 * 0,75) = R$ 87,50` | Iluminação: R$ 15,00 | **Total: R$ 102,50**
+4. **Consumo de 250.0 kWh:** Custo de Energia: `50,00 + 75,00 + (50 * 1,00) = R$ 175,00` | Iluminação: R$ 15,00 | **Total: R$ 190,00**
 
 ## 4. Estrutura da Classe & Especificação dos Métodos
 
-Pertence ao pacote `br.com.fatec.basic.ex05`:
+Pertence ao pacote `br.com.fatec.basic.ex05` na classe `ProgressiveRateCalculator`:
 
 ### 4.1. `calculateEnergyCost`
 
