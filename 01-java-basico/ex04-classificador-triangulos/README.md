@@ -21,7 +21,7 @@ Você foi designado para implementar o validador e classificador geométrico `Tr
 - Classificar entidades utilizando constantes enumeradas (`enum TriangleType`).
 - Aplicar proteção *fail-fast* com `IllegalArgumentException` ao detectar dimensões inválidas.
 
-## 3. Regras Matemáticas & Classificação
+## 3. Regras de Negócio & Classificação Geométrica
 
 ### 3.1. Condição de Existência (Desigualdade Triangular)
 
@@ -41,9 +41,9 @@ Uma vez comprovada a existência do triângulo:
   > *Nota:* Todo triângulo equilátero possui dois lados iguais; por convenção de classificação exclusiva, se os três forem iguais, deve ser classificado como **Equilátero**.
 - **Escaleno (`SCALENE`):** Todos os três lados possuem comprimentos distintos (`a != b && a != c && b != c`).
 
-## 4. Especificação dos Métodos
+## 4. Estrutura da Classe & Especificação dos Métodos
 
-Na classe `TriangleClassifier`, você deve implementar:
+Pertence ao pacote `br.com.fatec.basic.ex04` na classe `TriangleClassifier`:
 
 ### 4.1. `isValidTriangle`
 
@@ -69,7 +69,10 @@ public static TriangleType classify(double sideA, double sideB, double sideC)
 1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex04/TriangleClassifier.java`.
 2. Implemente a verificação geométrica no método `isValidTriangle`.
 3. Complete o método `classify` utilizando estruturas `if` / `else if` organizadas com base no `isValidTriangle`.
-4. Execute a suíte de testes com `./mvnw test -pl :ex04-classificador-triangulos`.
+4. Execute a suíte de testes:
+   ```bash
+   ./mvnw test -pl :ex04-classificador-triangulos
+   ```
 
 ## 6. Critérios de Aceite
 

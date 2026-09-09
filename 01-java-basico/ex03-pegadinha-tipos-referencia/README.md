@@ -3,7 +3,7 @@
 > **Módulo:** 01 — Java Básico  
 > **Tipologia:** Bugfix / Diagnóstico de Código  
 > **Dificuldade:** ⭐☆☆ (Iniciante)  
-> **Conceitos:** Tipos Primitivos vs Tipos por Referência, Efeitos Colaterais, Diagnóstico por Testes Automatizados  
+> **Conceitos:** Tipos Primitivos vs Tipos por Referência, Aliasing em Memória Heap, Efeitos Colaterais Indesejados e Diagnóstico com Testes  
 
 ## 1. Contexto & Chamado de Incidente
 
@@ -23,34 +23,43 @@ Hoje pela manhã, a equipe de auditoria e compliance abriu o seguinte chamado cr
 
 ---
 
-## 2. Comportamento Esperado vs Observado
+## 2. Objetivos de Aprendizagem
+
+- Diferenciar a passagem por valor de **tipos primitivos** (cópia independente do dado) da passagem de **tipos por referência** (cópia do ponteiro para o mesmo objeto na memória heap).
+- Identificar e diagnosticar problemas de **aliasing de referências** (*reference aliasing*) onde duas variáveis apontam para a mesma estrutura mutável.
+- Eliminar efeitos colaterais indesejados criando cópias defensivas (*defensive copies*) de arrays e coleções.
+- Interpretar relatórios de falha de testes automatizados (`AssertionError`) para isolar e corrigir bugs.
+
+## 3. O Problema Reportado & Comportamento Observado
 
 - **Comportamento Esperado:**
   - O array de pontuações recebido como parâmetro pelo método deve permanecer **estritamente inalterado** após a execução (sem efeitos colaterais no chamador).
   - O relatório `ScoreSnapshot` deve registrar em `originalScores` os valores iniciais intactos e em `updatedScores` os valores acrescidos da bonificação.
-  - A pontuação máxima individual (`highScore`), que é um número inteiro, também deve ter sua versão original e sua versão atualizada devidamente registradas.
+  - A pontuação máxima individual (`highScore`), que é um número primitivo `int`, deve manter sua versão original e sua versão atualizada devidamente registradas.
 
-- **Comportamento Observado:**
+- **Comportamento Observado (O Bug):**
   - A execução atual dos testes automatizados acusa falhas apontando que o array original foi mutado e que as pontuações antigas foram perdidas.
 
-## 3. Sua Missão
+## 4. Diagnóstico & Mecânica de Memória
 
-Como engenheiro de software responsável pelo módulo, você deve:
+No Java, ao atribuir um array a outra variável (`int[] copia = original;`), você **não está clonando o array**, mas apenas copiando o endereço de memória (*referência*). Ambas as variáveis passam a enxergar e modificar o mesmíssimo bloco de dados no *Heap*.
 
-1. **Executar a suíte de testes automatizados:**
+Qualquer alteração feita através da segunda variável reflete imediatamente na primeira, corrompendo os dados de quem chamou o método. Para preservar os dados originais, é indispensável alocar um novo array e copiar os elementos (ou utilizar utilitários como `Arrays.copyOf`).
+
+## 5. O que Você Deve Fazer
+
+1. Execute a suíte de testes automatizados para reproduzir o bug:
    ```bash
    ./mvnw test -pl :ex03-pegadinha-tipos-referencia
    ```
-2. **Analisar as falhas nos testes:**
-   - Observe quais cenários falharam e leia com atenção as mensagens de erro reportadas pelo JUnit e AssertJ.
-3. **Investigar o código-fonte:**
-   - Abra o arquivo `src/main/java/br/com/fatec/basic/ex03/ScoreSnapshotTracker.java`.
-   - Rastreie o ciclo de vida das variáveis e analise como os dados estão sendo manipulados na memória durante a execução dos métodos.
-4. **Corrigir o defeito:**
-   - Aplique a alteração necessária para eliminar o efeito colateral indesejado, garantindo que o array original seja preservado e que o novo cálculo funcione de forma independente.
-   - **Atenção:** Você **NÃO deve alterar a classe de testes** (`ScoreSnapshotTrackerTest.java`). Os testes representam o contrato de conformidade que seu código deve satisfazer.
+2. Analise as mensagens de erro reportadas pelo JUnit e AssertJ.
+3. Abra a classe `src/main/java/br/com/fatec/basic/ex03/ScoreSnapshotTracker.java`.
+4. Rastreie como o array está sendo manipulado e corrija o defeito eliminando a mutação do array original.
+5. Reexecute os testes até obter `BUILD SUCCESS`.
 
-## 4. Critérios de Aceite
+> **Atenção:** Você **NÃO deve alterar a classe de testes** (`ScoreSnapshotTrackerTest.java`). Os testes representam o contrato de conformidade que seu código deve satisfazer.
+
+## 6. Critérios de Aceite
 
 - Todos os testes da classe `ScoreSnapshotTrackerTest` devem passar com sucesso (`BUILD SUCCESS`).
 - O código do teste não deve sofrer nenhuma modificação.

@@ -14,7 +14,7 @@ Os arquivos resolvidos estão em:
 
 O método `isValidTriangle` atua como a única fonte de verdade sobre a geometria:
 1. Valida se os lados são estritamente positivos (`sideA > 0 && sideB > 0 && sideC > 0`).
-2. Avalia a desigualdade triangular: $(a + b > c) \land (a + c > b) \land (b + c > a)$.
+2. Avalia a desigualdade triangular: `(a + b > c) && (a + c > b) && (b + c > a)`.
 
 Os métodos de serviço, como `classify`, delegam a verificação a `isValidTriangle`:
 
@@ -31,4 +31,4 @@ Isso impede que as regras de negócio se repitam de maneira redundante na classe
 Para classificar o triângulo, a ordem das verificações importa:
 - Um triângulo equilátero tem 3 lados iguais e, por consequência, também tem 2 lados iguais.
 - Se testássemos a condição de isósceles primeiro (`a == b || a == c || b == c`), um triângulo equilátero seria falsamente classificado como isósceles!
-- Portanto, testamos primeiro a condição mais estrita (Equilátero: $a = b = c$), depois a intermediária (Isósceles: $a = b \lor a = c \lor b = c$) e, por eliminação direta, qualquer outro caso válido é Escaleno.
+- Portanto, testamos primeiro a condição mais estrita (Equilátero: `a == b && b == c`), depois a intermediária (Isósceles: `a == b || a == c || b == c`) e, por eliminação direta, qualquer outro caso válido é Escaleno.
