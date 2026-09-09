@@ -35,11 +35,8 @@ public final class ScoreSnapshotTracker {
      * @param scores array com as pontuações
      * @param bonus valor do bônus a ser adicionado
      * @return array contendo as pontuações atualizadas
-     * @throws IllegalArgumentException se o array for nulo ou se o bônus for negativo
      */
     private static int[] applyBonusToScores(int[] scores, int bonus) {
-        validateInputs(scores, bonus);
-
         int[] updatedScores = scores;
 
         for (int i = 0; i < updatedScores.length; i++) {
@@ -55,15 +52,9 @@ public final class ScoreSnapshotTracker {
      * @param currentHighScore pontuação máxima atual
      * @param bonus valor do bônus a ser somado
      * @return novo valor com o bônus adicionado
-     * @throws IllegalArgumentException se o bônus for negativo
      */
     private static int applyBonusToHighScore(int currentHighScore, int bonus) {
-        if (bonus < 0) {
-            throw new IllegalArgumentException("O bônus não pode ser negativo");
-        }
-        int updatedHighScore = currentHighScore;
-        updatedHighScore += bonus;
-        return updatedHighScore;
+        return currentHighScore + bonus;
     }
 
     private static void validateInputs(int[] scores, int bonus) {
