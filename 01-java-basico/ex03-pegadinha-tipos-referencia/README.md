@@ -25,10 +25,10 @@ Hoje pela manhã, a equipe de auditoria e compliance abriu o seguinte chamado cr
 
 ## 2. Objetivos de Aprendizagem
 
-- Diferenciar a passagem por valor de **tipos primitivos** (cópia independente do dado) da passagem de **tipos por referência** (cópia do ponteiro para o mesmo objeto na memória heap).
-- Identificar e diagnosticar problemas de **aliasing de referências** (*reference aliasing*) onde duas variáveis apontam para a mesma estrutura mutável.
-- Eliminar efeitos colaterais indesejados criando cópias defensivas (*defensive copies*) de arrays e coleções.
-- Interpretar relatórios de falha de testes automatizados (`AssertionError`) para isolar e corrigir bugs.
+- Diferenciar o modelo de memória de **tipos primitivos** (onde os valores residem diretamente na variável) de **tipos por referência** (onde a variável guarda apenas o endereço do objeto no Heap).
+- Diagnosticar problemas de **aliasing de referências** (*reference aliasing*) por meio da análise de comportamento e rastreamento de variáveis.
+- Eliminar efeitos colaterais indesejados, garantindo que métodos de cálculo não mutem estruturas recebidas como parâmetro.
+- Interpretar relatórios de falha de testes automatizados (`AssertionError`) para isolar a causa-raiz de um defeito.
 
 ## 3. O Problema Reportado & Comportamento Observado
 
@@ -40,11 +40,16 @@ Hoje pela manhã, a equipe de auditoria e compliance abriu o seguinte chamado cr
 - **Comportamento Observado (O Bug):**
   - A execução atual dos testes automatizados acusa falhas apontando que o array original foi mutado e que as pontuações antigas foram perdidas.
 
-## 4. Diagnóstico & Mecânica de Memória
+## 4. Pistas de Investigação & Hipóteses a Considerar
 
-No Java, ao atribuir um array a outra variável (`int[] copia = original;`), você **não está clonando o array**, mas apenas copiando o endereço de memória (*referência*). Ambas as variáveis passam a enxergar e modificar o mesmíssimo bloco de dados no *Heap*.
+Ao investigar o código da classe `ScoreSnapshotTracker`, considere as seguintes perguntas norteadoras:
 
-Qualquer alteração feita através da segunda variável reflete imediatamente na primeira, corrompendo os dados de quem chamou o método. Para preservar os dados originais, é indispensável alocar um novo array e copiar os elementos (ou utilizar utilitários como `Arrays.copyOf`).
+1. **O Contraste entre Primitivos e Objetos:**  
+   Por que o cálculo do `highScore` (que utiliza o tipo primitivo `int`) funcionou sem corromper o valor original, enquanto o array de `scores` sofreu alteração indevida?
+2. **O Comportamento do Operador de Atribuição (`=`):**  
+   Quando atribuímos uma variável de array a outra, ou a passamos como argumento para um método, o Java cria um novo conjunto de dados na memória ou compartilha o acesso à mesma estrutura existente?
+3. **Isolamento de Efeitos Colaterais:**  
+   Como garantir que o cálculo de bonificação opere sobre uma estrutura independente, sem alterar o array que pertence ao chamador externo?
 
 ## 5. O que Você Deve Fazer
 
@@ -54,7 +59,7 @@ Qualquer alteração feita através da segunda variável reflete imediatamente n
    ```
 2. Analise as mensagens de erro reportadas pelo JUnit e AssertJ.
 3. Abra a classe `src/main/java/br/com/fatec/basic/ex03/ScoreSnapshotTracker.java`.
-4. Rastreie como o array está sendo manipulado e corrija o defeito eliminando a mutação do array original.
+4. Rastreie como o array está sendo manipulado na memória e corrija o defeito, assegurando a integridade do array original e a independência do relatório.
 5. Reexecute os testes até obter `BUILD SUCCESS`.
 
 > **Atenção:** Você **NÃO deve alterar a classe de testes** (`ScoreSnapshotTrackerTest.java`). Os testes representam o contrato de conformidade que seu código deve satisfazer.
