@@ -24,10 +24,10 @@ Cada exercício evolui através do seguinte fluxo de estados:
 
 | Módulo | Total de Exercícios | DRAFT | BACKLOG | EXECUTANDO | REVISANDO | PRONTO |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **01 — Java Básico** | 19 | 18 | 0 | 0 | 0 | 1 |
+| **01 — Java Básico** | 19 | 17 | 0 | 0 | 0 | 2 |
 | **02 — Orientação a Objetos** | 16 | 16 | 0 | 0 | 0 | 0 |
 | **03 — Java In-Depth** | 8 | 8 | 0 | 0 | 0 | 0 |
-| **Total Geral** | **43** | **42** | **0** | **0** | **0** | **1** |
+| **Total Geral** | **43** | **41** | **0** | **0** | **0** | **2** |
 
 ---
 
@@ -36,7 +36,7 @@ Cada exercício evolui através do seguinte fluxo de estados:
 | ID / Diretório | Tema | Tipo | Status | Resumo da Proposta |
 | :--- | :--- | :--- | :---: | :--- |
 | `01-java-basico/ex01-conversor-temperatura` | Conversor Térmico | Service | `PRONTO` | Conversões Celsius, Fahrenheit e Kelvin. Precedência, divisão de ponto flutuante (`5.0/9.0` vs `5/9`) e validação de zero absoluto ($-273.15^\circ\text{C}$). |
-| `01-java-basico/ex02-calculadora-consumo-viagem` | Calculadora de Consumo de Viagem | Service | `DRAFT` | Distância, autonomia e combustível. Casting explícito (`int` para `double`) e formatação em 2 casas decimais. |
+| `01-java-basico/ex02-calculadora-consumo-viagem` | Calculadora de Consumo de Viagem | Service | `PRONTO` | Distância, autonomia e combustível. Casting explícito (`int` para `double`) e composição de relatório imutável com `record`. |
 | `01-java-basico/ex03-pegadinha-tipos-referencia` | O Mistério do Aliasing de Referências | Bugfix | `DRAFT` | Diagnóstico de mutação indesejada por compartilhamento de referência em memória vs cópia de primitivos. |
 | `01-java-basico/ex04-classificador-triangulos` | Classificador de Triângulos | Service | `DRAFT` | Desigualdade geométrica ($a < b + c$) e operadores lógicos (`&&`, `||`, `!`) para Equilátero, Isósceles ou Escaleno. |
 | `01-java-basico/ex05-calculadora-tarifa-progressiva` | Tarifador Progressivo de Energia | Service | `DRAFT` | Fatura por faixas cumulativas de consumo (kWh) com `if` / `else if` sem condições redundantes. |
