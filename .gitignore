@@ -1,0 +1,41 @@
+# Material de referência teórica (apenas consulta local)
+.teoria-referencia/
+
+# Frontend (Dashboard temporário da plataforma)
+index.html
+vite.config.ts
+package.json
+package-lock.json
+src/web/
+node_modules/
+dist/
+.vite/
+
+# Maven & Build
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE & Editor files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+*.class
+
+# OS & Logs
+*.log
+.DS_Store
+Thumbs.db
