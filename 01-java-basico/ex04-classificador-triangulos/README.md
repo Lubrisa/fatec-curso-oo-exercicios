@@ -25,19 +25,21 @@ Você foi designado para implementar o validador e classificador geométrico `Tr
 
 ### 3.1. Condição de Existência (Desigualdade Triangular)
 
-Três valores reais positivos $a$, $b$ e $c$ formam um triângulo válido se, e somente se, todas as três condições forem satisfeitas simultaneamente:
+Três valores reais positivos `a`, `b` e `c` formam um triângulo válido se, e somente se, todas as três condições forem satisfeitas simultaneamente:
 
-$$a + b > c \quad \text{e} \quad a + c > b \quad \text{e} \quad b + c > a$$
+```text
+(a + b > c) && (a + c > b) && (b + c > a)
+```
 
-Além disso, todos os lados devem ter comprimentos estritamente positivos ($a > 0$, $b > 0$, $c > 0$). Se qualquer lado for menor ou igual a zero, ou se a soma de dois lados for menor ou igual ao terceiro lado (por exemplo: $1, 2, 3$ ou $1, 2, 5$), a figura não fecha e o triângulo **não existe**.
+Além disso, todos os lados devem ter comprimentos estritamente positivos (`a > 0`, `b > 0`, `c > 0`). Se qualquer lado for menor ou igual a zero, ou se a soma de dois lados for menor ou igual ao terceiro lado (por exemplo: `1, 2, 3` ou `1, 2, 5`), a figura não fecha e o triângulo **não existe**.
 
 ### 3.2. Classificação quanto aos Lados
 
 Uma vez comprovada a existência do triângulo:
-- **Equilátero (`EQUILATERAL`):** Os três lados possuem comprimentos iguais ($a = b = c$).
-- **Isósceles (`ISOSCELES`):** Pelo menos dois lados possuem comprimentos iguais ($a = b$ ou $a = c$ ou $b = c$).
+- **Equilátero (`EQUILATERAL`):** Os três lados possuem comprimentos iguais (`a == b && b == c`).
+- **Isósceles (`ISOSCELES`):** Pelo menos dois lados possuem comprimentos iguais (`a == b || a == c || b == c`).
   > *Nota:* Todo triângulo equilátero possui dois lados iguais; por convenção de classificação exclusiva, se os três forem iguais, deve ser classificado como **Equilátero**.
-- **Escaleno (`SCALENE`):** Todos os três lados possuem comprimentos distintos ($a \neq b$ e $a \neq c$ e $b \neq c$).
+- **Escaleno (`SCALENE`):** Todos os três lados possuem comprimentos distintos (`a != b && a != c && b != c`).
 
 ## 4. Especificação dos Métodos
 
