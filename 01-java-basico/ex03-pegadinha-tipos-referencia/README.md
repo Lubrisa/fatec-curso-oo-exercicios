@@ -84,32 +84,7 @@ Ao investigar o código da classe `ScoreSnapshotTracker`, considere as seguintes
 
 ---
 
-## 7. Estrutura de Arquivos
-
-```text
-ex03-pegadinha-tipos-referencia/
-├── pom.xml
-├── README.md
-├── base/
-│   └── src/main/java/br/com/fatec/basic/ex03/
-│       ├── ScoreSnapshot.java          <- [Fornecido pronto]
-│       └── ScoreSnapshotTracker.java   <- [Template com o bug]
-├── src/
-│   ├── main/java/br/com/fatec/basic/ex03/
-│   │   ├── ScoreSnapshot.java          <- [Fornecido pronto]
-│   │   └── ScoreSnapshotTracker.java   <- [Exercício a corrigir]
-│   └── test/java/br/com/fatec/basic/ex03/
-│       └── ScoreSnapshotTrackerTest.java
-└── solucao-proposta/
-    ├── README.md
-    └── src/main/java/br/com/fatec/basic/ex03/
-        ├── ScoreSnapshot.java
-        └── ScoreSnapshotTracker.java
-```
-
----
-
-## 8. Critérios de Aceite
+## 7. Critérios de Aceite
 
 - Todos os testes da classe `ScoreSnapshotTrackerTest` devem passar com sucesso (`BUILD SUCCESS`).
 - O código do teste não deve sofrer nenhuma modificação.

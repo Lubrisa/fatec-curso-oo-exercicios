@@ -146,35 +146,7 @@ public final class PasswordValidator {
 
 ---
 
-## 6. Estrutura de Arquivos
-
-```text
-ex09-validador-senha-forte/
-├── pom.xml
-├── README.md
-├── base/
-│   └── src/main/java/br/com/fatec/basic/ex09/
-│       ├── PasswordStrength.java          <- [Fornecido pronto]
-│       ├── PasswordValidationResult.java  <- [Fornecido pronto]
-│       └── PasswordValidator.java         <- [Template para o aluno]
-├── src/
-│   ├── main/java/br/com/fatec/basic/ex09/
-│   │   ├── PasswordStrength.java          <- [Fornecido pronto]
-│   │   ├── PasswordValidationResult.java  <- [Fornecido pronto]
-│   │   └── PasswordValidator.java         <- [Exercício a resolver]
-│   └── test/java/br/com/fatec/basic/ex09/
-│       └── PasswordValidatorTest.java
-└── solucao-proposta/
-    ├── README.md
-    └── src/main/java/br/com/fatec/basic/ex09/
-        ├── PasswordStrength.java
-        ├── PasswordValidationResult.java
-        └── PasswordValidator.java
-```
-
----
-
-## 7. Dica de Engenharia: Inspeção Manual vs Expressões Regulares (Regex)
+## 6. Dica de Engenharia: Inspeção Manual vs Expressões Regulares (Regex)
 
 > Embora seja possível validar senhas com Regex (`^(?=.*[a-z])(?=.*[A-Z])...`), a inspeção manual por laço iterativo oferece vantagens cruciais:
 > - **Performance:** Percorre a string **uma única vez** em tempo $O(N)$, sem a sobrecarga do compilador de autômatos de expressões regulares.
@@ -182,7 +154,7 @@ ex09-validador-senha-forte/
 
 ---
 
-## 8. Critérios de Aceite
+## 7. Critérios de Aceite
 
 - Todos os testes da classe `PasswordValidatorTest` devem passar com sucesso (`BUILD SUCCESS`).
 - Strings nulas e vazias devem ser tratadas de forma segura, resultando em senhas inválidas com força `FRACA` sem disparar `NullPointerException`.

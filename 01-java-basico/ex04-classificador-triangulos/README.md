@@ -93,32 +93,7 @@ public enum TriangleType {
 
 ---
 
-## 6. Estrutura de Arquivos
-
-```text
-ex04-classificador-triangulos/
-├── pom.xml
-├── README.md
-├── base/
-│   └── src/main/java/br/com/fatec/basic/ex04/
-│       ├── TriangleType.java         <- [Fornecido pronto]
-│       └── TriangleClassifier.java   <- [Template para o aluno]
-├── src/
-│   ├── main/java/br/com/fatec/basic/ex04/
-│   │   ├── TriangleType.java         <- [Fornecido pronto]
-│   │   └── TriangleClassifier.java   <- [Exercício a resolver]
-│   └── test/java/br/com/fatec/basic/ex04/
-│       └── TriangleClassifierTest.java
-└── solucao-proposta/
-    ├── README.md
-    └── src/main/java/br/com/fatec/basic/ex04/
-        ├── TriangleType.java
-        └── TriangleClassifier.java
-```
-
----
-
-## 7. Critérios de Aceite
+## 6. Critérios de Aceite
 
 - Todos os testes da classe `TriangleClassifierTest` devem passar com sucesso.
 - As tentativas de classificar triângulos degenerados ou inválidos devem lançar `IllegalArgumentException` com a mensagem `"Os lados fornecidos não formam um triângulo válido"`.

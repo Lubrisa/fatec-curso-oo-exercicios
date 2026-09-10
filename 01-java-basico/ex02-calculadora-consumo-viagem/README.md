@@ -107,32 +107,7 @@ public record TripSummary(
 
 ---
 
-## 6. Estrutura de Arquivos
-
-```text
-ex02-calculadora-consumo-viagem/
-├── pom.xml
-├── README.md
-├── base/
-│   └── src/main/java/br/com/fatec/basic/ex02/
-│       ├── TripSummary.java          <- [Fornecido pronto]
-│       └── TripCostCalculator.java   <- [Template para o aluno]
-├── src/
-│   ├── main/java/br/com/fatec/basic/ex02/
-│   │   ├── TripSummary.java          <- [Fornecido pronto]
-│   │   └── TripCostCalculator.java   <- [Exercício a resolver]
-│   └── test/java/br/com/fatec/basic/ex02/
-│       └── TripCostCalculatorTest.java
-└── solucao-proposta/
-    ├── README.md
-    └── src/main/java/br/com/fatec/basic/ex02/
-        ├── TripSummary.java
-        └── TripCostCalculator.java
-```
-
----
-
-## 7. Critérios de Aceite
+## 6. Critérios de Aceite
 
 - Todos os testes da classe `TripCostCalculatorTest` devem passar com sucesso.
 - As validações de parâmetros devem lançar `IllegalArgumentException` com as mensagens exatas especificadas.

@@ -115,32 +115,7 @@ double max = values[0];
 
 ---
 
-## 5. Estrutura de Arquivos
-
-```text
-ex11-estatisticas-vetor/
-├── pom.xml
-├── README.md
-├── base/
-│   └── src/main/java/br/com/fatec/basic/ex11/
-│       ├── VectorStatistics.java  <- [Fornecido pronto]
-│       └── VectorAnalyzer.java    <- [Template para o aluno]
-├── src/
-│   ├── main/java/br/com/fatec/basic/ex11/
-│   │   ├── VectorStatistics.java  <- [Fornecido pronto]
-│   │   └── VectorAnalyzer.java    <- [Exercício a resolver]
-│   └── test/java/br/com/fatec/basic/ex11/
-│       └── VectorAnalyzerTest.java
-└── solucao-proposta/
-    ├── README.md
-    └── src/main/java/br/com/fatec/basic/ex11/
-        ├── VectorStatistics.java
-        └── VectorAnalyzer.java
-```
-
----
-
-## 6. Dica de Reflexão / Desafio Opcional
+## 5. Dica de Reflexão / Desafio Opcional
 
 > ### 💡 Passo Único ($O(N)$) vs Múltiplos Passos
 >
@@ -152,7 +127,7 @@ ex11-estatisticas-vetor/
 
 ---
 
-## 7. Critérios de Aceite
+## 6. Critérios de Aceite
 
 1. Todos os testes unitários em `VectorAnalyzerTest.java` devem compilar e passar com sucesso (**100% verdes**).
 2. O método `calculateStatistics` deve processar corretamente vetores unitários (tamanho 1), vetores homogêneos (todos elementos iguais) e vetores com números negativos.
