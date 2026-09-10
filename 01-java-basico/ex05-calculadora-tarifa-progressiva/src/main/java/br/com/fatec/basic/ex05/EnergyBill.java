@@ -1,7 +1,10 @@
 package br.com.fatec.basic.ex05;
 
 /**
+ * [ESTRUTURA FORNECIDA PRONTA — NÃO É NECESSÁRIO MODIFICAR ESTE ARQUIVO]
+ *
  * Registro imutável que consolida a fatura de energia elétrica residencial.
+ * Utilizado como tipo de retorno do método ProgressiveRateCalculator.calculateBill(...).
  *
  * @param consumptionKwh     consumo faturado no ciclo em kWh
  * @param energyCost         custo calculado pela soma das faixas cumulativas de consumo

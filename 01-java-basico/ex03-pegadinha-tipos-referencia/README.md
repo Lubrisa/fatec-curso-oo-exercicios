@@ -40,7 +40,22 @@ Hoje pela manhã, a equipe de auditoria e compliance abriu o seguinte chamado cr
 - **Comportamento Observado (O Bug):**
   - A execução atual dos testes automatizados acusa falhas apontando que o array original foi mutado e que as pontuações antigas foram perdidas.
 
-## 4. Pistas de Investigação & Hipóteses a Considerar
+## 4. Estrutura de Apoio Fornecida (`ScoreSnapshot`)
+
+> ℹ️ **Estrutura Pré-Pronta:** O arquivo `ScoreSnapshot.java` já vem implementado e **não precisa ser modificado**. Ele funciona como um agrupador imutável de dados para consolidar o estado antes e depois da bonificação:
+
+```java
+public record ScoreSnapshot(
+        int[] originalScores,
+        int[] updatedScores,
+        int originalHighScore,
+        int updatedHighScore
+) {}
+```
+
+---
+
+## 5. Pistas de Investigação & Hipóteses a Considerar
 
 Ao investigar o código da classe `ScoreSnapshotTracker`, considere as seguintes perguntas norteadoras:
 
@@ -51,20 +66,50 @@ Ao investigar o código da classe `ScoreSnapshotTracker`, considere as seguintes
 3. **Isolamento de Efeitos Colaterais:**  
    Como garantir que o cálculo de bonificação opere sobre uma estrutura independente, sem alterar o array que pertence ao chamador externo?
 
-## 5. O que Você Deve Fazer
+---
+
+## 6. O que Você Deve Fazer
 
 1. Execute a suíte de testes automatizados para reproduzir o bug:
    ```bash
    ./mvnw test -pl :ex03-pegadinha-tipos-referencia
    ```
 2. Analise as mensagens de erro reportadas pelo JUnit e AssertJ.
-3. Abra a classe `src/main/java/br/com/fatec/basic/ex03/ScoreSnapshotTracker.java`.
+3. Abra a classe `src/main/java/br/com/fatec/basic/ex03/ScoreSnapshotTracker.java`.  
+   *(O arquivo `ScoreSnapshot.java` já está pronto e não precisa de nenhuma modificação).*
 4. Rastreie como o array está sendo manipulado na memória e corrija o defeito, assegurando a integridade do array original e a independência do relatório.
 5. Reexecute os testes até obter `BUILD SUCCESS`.
 
 > **Atenção:** Você **NÃO deve alterar a classe de testes** (`ScoreSnapshotTrackerTest.java`). Os testes representam o contrato de conformidade que seu código deve satisfazer.
 
-## 6. Critérios de Aceite
+---
+
+## 7. Estrutura de Arquivos
+
+```text
+ex03-pegadinha-tipos-referencia/
+├── pom.xml
+├── README.md
+├── base/
+│   └── src/main/java/br/com/fatec/basic/ex03/
+│       ├── ScoreSnapshot.java          <- [Fornecido pronto]
+│       └── ScoreSnapshotTracker.java   <- [Template com o bug]
+├── src/
+│   ├── main/java/br/com/fatec/basic/ex03/
+│   │   ├── ScoreSnapshot.java          <- [Fornecido pronto]
+│   │   └── ScoreSnapshotTracker.java   <- [Exercício a corrigir]
+│   └── test/java/br/com/fatec/basic/ex03/
+│       └── ScoreSnapshotTrackerTest.java
+└── solucao-proposta/
+    ├── README.md
+    └── src/main/java/br/com/fatec/basic/ex03/
+        ├── ScoreSnapshot.java
+        └── ScoreSnapshotTracker.java
+```
+
+---
+
+## 8. Critérios de Aceite
 
 - Todos os testes da classe `ScoreSnapshotTrackerTest` devem passar com sucesso (`BUILD SUCCESS`).
 - O código do teste não deve sofrer nenhuma modificação.

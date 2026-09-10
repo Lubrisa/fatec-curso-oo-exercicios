@@ -1,7 +1,10 @@
 package br.com.fatec.basic.ex09;
 
 /**
+ * [ESTRUTURA FORNECIDA PRONTA — NÃO É NECESSÁRIO MODIFICAR ESTE ARQUIVO]
+ *
  * Relatório imutável contendo o diagnóstico detalhado da validação de uma senha.
+ * Utilizado como tipo de retorno do método PasswordValidator.validate(...).
  *
  * @param isValid          indica se a senha atendeu a todos os critérios obrigatórios
  * @param hasMinLength     indica se possui no mínimo 8 caracteres

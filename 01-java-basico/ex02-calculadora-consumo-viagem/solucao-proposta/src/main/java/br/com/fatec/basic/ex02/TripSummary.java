@@ -1,7 +1,10 @@
 package br.com.fatec.basic.ex02;
 
 /**
+ * [ESTRUTURA FORNECIDA PRONTA — NÃO É NECESSÁRIO MODIFICAR ESTE ARQUIVO]
+ *
  * Registro imutável que consolida o resumo financeiro e operacional de uma viagem.
+ * Utilizado como tipo de retorno do método TripCostCalculator.calculateSummary(...).
  *
  * @param distanceInKm a distância total percorrida em quilômetros
  * @param litersNeeded a quantidade calculada de litros de combustível consumidos

@@ -142,17 +142,62 @@ public static EnergyBill calculateBill(double consumptionKwh)
 - Retorna o registro imutável `EnergyBill` com `consumptionKwh`, `energyCost`, `publicLightingFee` e `totalAmount`.
 - Lança `IllegalArgumentException("O consumo não pode ser negativo")` se `consumptionKwh < 0`.
 
+---
+
+### 4.3. Estrutura de Retorno Fornecida (`EnergyBill`)
+
+> ℹ️ **Estrutura Pré-Pronta:** O arquivo `EnergyBill.java` já vem implementado e **não precisa ser modificado**. Ele funciona como um agrupador imutável de dados que reúne o extrato completo da fatura:
+
+```java
+public record EnergyBill(
+        double consumptionKwh,
+        double energyCost,
+        double publicLightingFee,
+        double totalAmount
+) {}
+```
+
+---
+
 ## 5. O que Você Deve Fazer
 
-1. Abra a classe `src/main/java/br/com/fatec/basic/ex05/ProgressiveRateCalculator.java`.
+1. Abra a classe `src/main/java/br/com/fatec/basic/ex05/ProgressiveRateCalculator.java`.  
+   *(O arquivo `EnergyBill.java` já está pronto e não precisa de nenhuma modificação).*
 2. Implemente o método `calculateEnergyCost` estruturando as faixas com `if` / `else if` / `else` de maneira limpa (sem condições redundantes).
-3. Complete o método `calculateBill` compondo o retorno com o `record EnergyBill` já fornecido.
+3. Complete o método `calculateBill` compondo o retorno com o `record EnergyBill` já fornecido (`new EnergyBill(...)`).
 4. Execute a suíte de testes:
    ```bash
    ./mvnw test -pl :ex05-calculadora-tarifa-progressiva
    ```
 
-## 6. Critérios de Aceite
+---
+
+## 6. Estrutura de Arquivos
+
+```text
+ex05-calculadora-tarifa-progressiva/
+├── pom.xml
+├── README.md
+├── base/
+│   └── src/main/java/br/com/fatec/basic/ex05/
+│       ├── EnergyBill.java                 <- [Fornecido pronto]
+│       └── ProgressiveRateCalculator.java  <- [Template para o aluno]
+├── src/
+│   ├── main/java/br/com/fatec/basic/ex05/
+│   │   ├── EnergyBill.java                 <- [Fornecido pronto]
+│   │   └── ProgressiveRateCalculator.java  <- [Exercício a resolver]
+│   └── test/java/br/com/fatec/basic/ex05/
+│       └── ProgressiveRateCalculatorTest.java
+└── solucao-proposta/
+    ├── README.md
+    └── src/main/java/br/com/fatec/basic/ex05/
+        ├── EnergyBill.java
+        └── ProgressiveRateCalculator.java
+```
+
+---
+
+## 7. Critérios de Aceite
 
 - Todos os testes da classe `ProgressiveRateCalculatorTest` devem passar com sucesso.
 - Consumos negativos devem lançar `IllegalArgumentException` com a mensagem `"O consumo não pode ser negativo"`.

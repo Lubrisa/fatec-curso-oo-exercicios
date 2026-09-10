@@ -64,9 +64,26 @@ public static TriangleType classify(double sideA, double sideB, double sideC)
 - Se não for válido, lança `IllegalArgumentException("Os lados fornecidos não formam um triângulo válido")`.
 - Retorna o tipo correspondente: `TriangleType.EQUILATERAL`, `TriangleType.ISOSCELES` ou `TriangleType.SCALENE`.
 
+---
+
+### 4.3. Enumeração Fornecida (`TriangleType`)
+
+> ℹ️ **Estrutura Pré-Pronta:** O arquivo `TriangleType.java` já vem implementado e **não precisa ser modificado**. Ele define as constantes de classificação geométrica:
+
+```java
+public enum TriangleType {
+    EQUILATERAL,
+    ISOSCELES,
+    SCALENE
+}
+```
+
+---
+
 ## 5. O que Você Deve Fazer
 
-1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex04/TriangleClassifier.java`.
+1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex04/TriangleClassifier.java`.  
+   *(O arquivo `TriangleType.java` já está pronto e não precisa de nenhuma modificação).*
 2. Implemente a verificação geométrica no método `isValidTriangle`.
 3. Complete o método `classify` utilizando estruturas `if` / `else if` organizadas com base no `isValidTriangle`.
 4. Execute a suíte de testes:
@@ -74,7 +91,34 @@ public static TriangleType classify(double sideA, double sideB, double sideC)
    ./mvnw test -pl :ex04-classificador-triangulos
    ```
 
-## 6. Critérios de Aceite
+---
+
+## 6. Estrutura de Arquivos
+
+```text
+ex04-classificador-triangulos/
+├── pom.xml
+├── README.md
+├── base/
+│   └── src/main/java/br/com/fatec/basic/ex04/
+│       ├── TriangleType.java         <- [Fornecido pronto]
+│       └── TriangleClassifier.java   <- [Template para o aluno]
+├── src/
+│   ├── main/java/br/com/fatec/basic/ex04/
+│   │   ├── TriangleType.java         <- [Fornecido pronto]
+│   │   └── TriangleClassifier.java   <- [Exercício a resolver]
+│   └── test/java/br/com/fatec/basic/ex04/
+│       └── TriangleClassifierTest.java
+└── solucao-proposta/
+    ├── README.md
+    └── src/main/java/br/com/fatec/basic/ex04/
+        ├── TriangleType.java
+        └── TriangleClassifier.java
+```
+
+---
+
+## 7. Critérios de Aceite
 
 - Todos os testes da classe `TriangleClassifierTest` devem passar com sucesso.
 - As tentativas de classificar triângulos degenerados ou inválidos devem lançar `IllegalArgumentException` com a mensagem `"Os lados fornecidos não formam um triângulo válido"`.

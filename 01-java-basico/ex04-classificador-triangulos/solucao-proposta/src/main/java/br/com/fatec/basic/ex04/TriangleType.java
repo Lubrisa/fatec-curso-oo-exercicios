@@ -1,7 +1,10 @@
 package br.com.fatec.basic.ex04;
 
 /**
+ * [ESTRUTURA FORNECIDA PRONTA — NÃO É NECESSÁRIO MODIFICAR ESTE ARQUIVO]
+ *
  * Enumeração que representa a classificação geométrica de um triângulo quanto aos seus lados.
+ * Utilizada como tipo de retorno do método TriangleClassifier.classify(...).
  */
 public enum TriangleType {
     /**

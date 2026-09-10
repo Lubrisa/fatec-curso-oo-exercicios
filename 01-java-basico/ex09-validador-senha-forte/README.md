@@ -78,7 +78,9 @@ public record PasswordValidationResult(
 
 Pertence ao pacote `br.com.fatec.basic.ex09`:
 
-### 4.1. `PasswordStrength` (Enum)
+### 4.1. Estruturas de Apoio Fornecidas (`PasswordStrength` e `PasswordValidationResult`)
+
+> ℹ️ **Estruturas Pré-Prontas:** Os arquivos `PasswordStrength.java` e `PasswordValidationResult.java` já vêm implementados e **não precisam ser modificados**. Eles fornecem a categorização da força e o relatório consolidado de auditoria:
 
 ```java
 public enum PasswordStrength {
@@ -89,7 +91,22 @@ public enum PasswordStrength {
 }
 ```
 
-### 4.2. `PasswordValidator` (Classe Utilitária)
+```java
+public record PasswordValidationResult(
+        boolean isValid,
+        boolean hasMinLength,
+        boolean hasUpperCase,
+        boolean hasLowerCase,
+        boolean hasDigit,
+        boolean hasSpecialChar,
+        boolean hasNoWhitespace,
+        PasswordStrength strength
+) {}
+```
+
+---
+
+### 4.2. `PasswordValidator` (Classe Utilitária a Implementar)
 
 ```java
 public final class PasswordValidator {
@@ -110,30 +127,62 @@ public final class PasswordValidator {
 - `isValid(String password)`: método de conveniência que retorna diretamente `validate(password).isValid()`.
 - `estimateStrength(String password)`: método de conveniência que retorna diretamente `validate(password).strength()`.
 
+---
+
 ## 5. O que Você Deve Fazer
 
-1. Abra os arquivos no pacote `br.com.fatec.basic.ex09`.
-2. Inspecione o enum `PasswordStrength` e o record `PasswordValidationResult`.
-3. Abra a classe `PasswordValidator.java` e implemente o algoritmo de validação:
+1. Abra a classe `src/main/java/br/com/fatec/basic/ex09/PasswordValidator.java`.  
+   *(Os arquivos `PasswordStrength.java` e `PasswordValidationResult.java` já estão prontos e não precisam de nenhuma modificação).*
+2. Implemente o algoritmo de validação em `PasswordValidator`:
    - Trate `null` e strings vazias no início.
    - Percorra a string com um laço `for (int i = 0; i < password.length(); i++)`.
    - Inspecione cada caractere com `password.charAt(i)` e os métodos da classe `Character`.
    - Conte a ocorrência de dígitos e caracteres especiais para apoiar a classificação `MUITO_FORTE`.
-   - Monte e retorne o resultado.
-4. Execute a suíte de testes:
+   - Monte e retorne uma nova instância de `PasswordValidationResult`.
+3. Execute a suíte de testes:
    ```bash
    ./mvnw test -pl :ex09-validador-senha-forte
    ```
 
 ---
 
-> ### 💡 Dica de Engenharia: Inspeção Manual vs Expressões Regulares (Regex)
->
+## 6. Estrutura de Arquivos
+
+```text
+ex09-validador-senha-forte/
+├── pom.xml
+├── README.md
+├── base/
+│   └── src/main/java/br/com/fatec/basic/ex09/
+│       ├── PasswordStrength.java          <- [Fornecido pronto]
+│       ├── PasswordValidationResult.java  <- [Fornecido pronto]
+│       └── PasswordValidator.java         <- [Template para o aluno]
+├── src/
+│   ├── main/java/br/com/fatec/basic/ex09/
+│   │   ├── PasswordStrength.java          <- [Fornecido pronto]
+│   │   ├── PasswordValidationResult.java  <- [Fornecido pronto]
+│   │   └── PasswordValidator.java         <- [Exercício a resolver]
+│   └── test/java/br/com/fatec/basic/ex09/
+│       └── PasswordValidatorTest.java
+└── solucao-proposta/
+    ├── README.md
+    └── src/main/java/br/com/fatec/basic/ex09/
+        ├── PasswordStrength.java
+        ├── PasswordValidationResult.java
+        └── PasswordValidator.java
+```
+
+---
+
+## 7. Dica de Engenharia: Inspeção Manual vs Expressões Regulares (Regex)
+
 > Embora seja possível validar senhas com Regex (`^(?=.*[a-z])(?=.*[A-Z])...`), a inspeção manual por laço iterativo oferece vantagens cruciais:
 > - **Performance:** Percorre a string **uma única vez** em tempo $O(N)$, sem a sobrecarga do compilador de autômatos de expressões regulares.
 > - **Diagnóstico Claro:** Permite identificar com exatidão **qual requisito específico falhou**, possibilitando exibir mensagens amigáveis na interface do usuário (ex: *"Falta uma letra maiúscula"*).
 
-## 6. Critérios de Aceite
+---
+
+## 8. Critérios de Aceite
 
 - Todos os testes da classe `PasswordValidatorTest` devem passar com sucesso (`BUILD SUCCESS`).
 - Strings nulas e vazias devem ser tratadas de forma segura, resultando em senhas inválidas com força `FRACA` sem disparar `NullPointerException`.

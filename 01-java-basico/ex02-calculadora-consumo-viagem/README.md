@@ -72,22 +72,67 @@ public static TripSummary calculateSummary(int distanceInKm, double fuelEfficien
 
 - Valida os argumentos de entrada lançando `IllegalArgumentException` se algum for menor ou igual a zero.
 - Encadeia as chamadas aos métodos auxiliares.
-- Retorna uma nova instância do registro imutável:
+- Retorna uma nova instância da estrutura agregadora:
   ```java
   return new TripSummary(distanceInKm, litersNeeded, totalCost, costPerKm);
   ```
 
+---
+
+### 4.3. Estrutura de Retorno Fornecida (`TripSummary`)
+
+> ℹ️ **Estrutura Pré-Pronta:** O arquivo `TripSummary.java` já vem implementado e **não precisa ser modificado**. Ele funciona como um agrupador imutável de dados que consolida as 4 métricas calculadas:
+
+```java
+public record TripSummary(
+        int distanceInKm,
+        double litersNeeded,
+        double totalCost,
+        double costPerKm
+) {}
+```
+
+---
+
 ## 5. O que Você Deve Fazer
 
-1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex02/TripCostCalculator.java`.
+1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex02/TripCostCalculator.java`.  
+   *(O arquivo `TripSummary.java` já está pronto e não precisa de nenhuma modificação).*
 2. Complete a implementação dos métodos auxiliares de cálculo (`calculateLitersNeeded`, `calculateTotalCost`, `calculateCostPerKm`).
-3. Complete o método `calculateSummary`, incluindo as validações e compondo as chamadas.
+3. Complete o método `calculateSummary`, incluindo as validações e compondo as chamadas para instanciar `new TripSummary(...)`.
 4. Execute os testes automatizados para verificar sua solução:
    ```bash
    ./mvnw test -pl :ex02-calculadora-consumo-viagem
    ```
 
-## 6. Critérios de Aceite
+---
+
+## 6. Estrutura de Arquivos
+
+```text
+ex02-calculadora-consumo-viagem/
+├── pom.xml
+├── README.md
+├── base/
+│   └── src/main/java/br/com/fatec/basic/ex02/
+│       ├── TripSummary.java          <- [Fornecido pronto]
+│       └── TripCostCalculator.java   <- [Template para o aluno]
+├── src/
+│   ├── main/java/br/com/fatec/basic/ex02/
+│   │   ├── TripSummary.java          <- [Fornecido pronto]
+│   │   └── TripCostCalculator.java   <- [Exercício a resolver]
+│   └── test/java/br/com/fatec/basic/ex02/
+│       └── TripCostCalculatorTest.java
+└── solucao-proposta/
+    ├── README.md
+    └── src/main/java/br/com/fatec/basic/ex02/
+        ├── TripSummary.java
+        └── TripCostCalculator.java
+```
+
+---
+
+## 7. Critérios de Aceite
 
 - Todos os testes da classe `TripCostCalculatorTest` devem passar com sucesso.
 - As validações de parâmetros devem lançar `IllegalArgumentException` com as mensagens exatas especificadas.
