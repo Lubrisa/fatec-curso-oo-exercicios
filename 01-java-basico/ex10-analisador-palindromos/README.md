@@ -123,8 +123,7 @@ public static boolean isPalindrome(String text)
 > Seria possível verificar se uma frase é palíndromo percorrendo a string original **diretamente**, sem criar nenhuma string intermediária?  
 > - E se o ponteiro `left`, ao encontrar um espaço ou pontuação, simplesmente avançasse (`left++`) até encontrar a próxima letra ou dígito?  
 > - E se o ponteiro `right`, ao encontrar pontuação, recuasse (`right--`)?  
-> - Ao comparar, bastaria comparar os dois caracteres ignorando maiúsculas e acentos em tempo real!  
-> Essa estratégia reduz o espaço auxiliar para **$O(1)$**, executando a análise in-place diretamente na memória original.
+> - **Atenção especial a acentos e cedilha:** Em Java, `Character.toLowerCase('ô')` permanece `'ô'` (não vira `'o'`), e `Character.toLowerCase('ç')` permanece `'ç'` (não vira `'c'`). Como lidar com isso sem alocar uma nova string? Uma função auxiliar com `switch` que mapeia caracteres acentuados para sua base em tempo $O(1)$ (`'ô' -> 'o'`, `'ç' -> 'c'`, `'á' -> 'a'`, etc.) permite manter o espaço auxiliar estritamente em **$O(1)$**, executando a análise in-place diretamente na memória original!
 
 ## 6. Critérios de Aceite
 

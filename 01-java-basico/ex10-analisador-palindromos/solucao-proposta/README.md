@@ -41,37 +41,69 @@ Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("\\p{M}", "")
 - A classe `java.text.Normalizer` separa a letra base de suas marcas diacríticas.
 - A expressão regular `\p{M}` (*Mark/Diacritic*) captura e remove exclusivamente os acentos combinatórios, transformando `"ônibus"` em `"onibus"` e `"maçã"` em `"maca"` de maneira universal e elegante.
 
-### 2.3. Resolução do Desafio: Verificação On-the-Fly em O(1) de Memória
+### 2.3. Resolução do Desafio: Verificação On-the-Fly em O(1) de Memória com Suporte a Acentos e Cedilha
 
-Para evitar gerar strings intermediárias no Heap, é possível avançar os dois ponteiros sobre a string original ignorando caracteres inválidos em tempo de execução:
+Na implementação de dois ponteiros *on-the-fly*, apenas chamar `Character.toLowerCase(c)` **não é suficiente** para textos em língua portuguesa. Em Java:
+- `Character.isLetterOrDigit('ô')` e `Character.isLetterOrDigit('ç')` retornam `true`.
+- Porém, `Character.toLowerCase('ô')` permanece `'ô'` (`\u00F4`), que é numericamente diferente de `'o'` (`\u006F`). O mesmo ocorre para `'ç'` (`\u00E7`) versus `'c'` (`\u0063`).
+
+Se a verificação comparasse apenas `Character.toLowerCase`, frases célebres como *"Socorram-me, subi no ônibus em Marrocos!"* falhariam na comparação entre o `'ô'` e o `'o'`.
+
+Para manter a solução **estritamente em espaço auxiliar $O(1)$** (sem instanciar uma nova string no Heap), combinamos os dois ponteiros com uma função pura de desacentuação direta caractere a caractere (`switch` expression do Java moderno):
 
 ```java
 public static boolean isPalindromeOnTheFly(String text) {
-    if (text == null) throw new IllegalArgumentException("O texto informado não pode ser nulo");
-    
-    // Normalização inicial apenas se houver acentuação, ou varredura direta com mapeamento de caracteres
+    if (text == null) {
+        throw new IllegalArgumentException("O texto informado não pode ser nulo");
+    }
+
     int left = 0;
     int right = text.length() - 1;
 
     while (left < right) {
+        // Avança o ponteiro da esquerda enquanto não for letra ou dígito
         while (left < right && !Character.isLetterOrDigit(text.charAt(left))) {
             left++;
         }
+        // Recua o ponteiro da direita enquanto não for letra ou dígito
         while (left < right && !Character.isLetterOrDigit(text.charAt(right))) {
             right--;
         }
-        
-        char cLeft = Character.toLowerCase(text.charAt(left));
-        char cRight = Character.toLowerCase(text.charAt(right));
+
+        char cLeft = normalizeChar(text.charAt(left));
+        char cRight = normalizeChar(text.charAt(right));
 
         if (cLeft != cRight) {
             return false;
         }
+
         left++;
         right--;
     }
+
     return true;
+}
+
+/**
+ * Normaliza o caractere convertendo para minúsculo e removendo marcas diacríticas
+ * em tempo constante O(1) e sem alocação de objetos no Heap.
+ */
+private static char normalizeChar(char c) {
+    char lower = Character.toLowerCase(c);
+    return switch (lower) {
+        case 'á', 'à', 'â', 'ã', 'ä' -> 'a';
+        case 'é', 'è', 'ê', 'ë' -> 'e';
+        case 'í', 'ì', 'î', 'ï' -> 'i';
+        case 'ó', 'ò', 'ô', 'õ', 'ö' -> 'o';
+        case 'ú', 'ù', 'û', 'ü' -> 'u';
+        case 'ç' -> 'c';
+        case 'ñ' -> 'n';
+        default -> lower;
+    };
 }
 ```
 
-Essa solução reduz o consumo de memória auxiliar a zero ($O(1)$), sendo a implementação padrão utilizada em motores de busca e bibliotecas de alta performance.
+Essa solução combina o melhor dos dois mundos:
+- **Zero Alocações de Memória Auxiliar ($O(1)$ espaço):** Não cria instâncias intermediárias de `String`, `StringBuilder` ou arrays no Heap.
+- **Suporte Integral ao Português:** Reconhece equivalências fonéticas e ortográficas de acentos (`á`, `à`, `ã`, `â`, `é`, `ê`, `í`, `ó`, `ô`, `õ`, `ú`, etc.) e da cedilha (`ç`).
+- **Eficiência Máxima ($O(N)$ tempo):** Avalia e descarta discrepâncias na primeira divergência encontrada.

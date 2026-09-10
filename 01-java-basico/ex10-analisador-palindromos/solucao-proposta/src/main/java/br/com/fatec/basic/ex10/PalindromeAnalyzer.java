@@ -84,4 +84,57 @@ public final class PalindromeAnalyzer {
         String sanitized = sanitize(text);
         return isStrictPalindrome(sanitized);
     }
+
+    /**
+     * Solução alternativa para o desafio de eficiência (Zero Alocação):
+     * Verifica se o texto é palíndromo diretamente sobre a string original em O(1) de espaço de memória,
+     * ignorando caracteres especiais e normalizando acentos e cedilha on-the-fly.
+     *
+     * @param text frase ou palavra a ser verificada
+     * @return true se o texto é palíndromo, false caso contrário
+     * @throws IllegalArgumentException se text for nulo
+     */
+    public static boolean isPalindromeOnTheFly(String text) {
+        if (text == null) {
+            throw new IllegalArgumentException(ERROR_NULL_TEXT);
+        }
+
+        int left = 0;
+        int right = text.length() - 1;
+
+        while (left < right) {
+            while (left < right && !Character.isLetterOrDigit(text.charAt(left))) {
+                left++;
+            }
+            while (left < right && !Character.isLetterOrDigit(text.charAt(right))) {
+                right--;
+            }
+
+            char cLeft = normalizeChar(text.charAt(left));
+            char cRight = normalizeChar(text.charAt(right));
+
+            if (cLeft != cRight) {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
+    private static char normalizeChar(char c) {
+        char lower = Character.toLowerCase(c);
+        return switch (lower) {
+            case 'á', 'à', 'â', 'ã', 'ä' -> 'a';
+            case 'é', 'è', 'ê', 'ë' -> 'e';
+            case 'í', 'ì', 'î', 'ï' -> 'i';
+            case 'ó', 'ò', 'ô', 'õ', 'ö' -> 'o';
+            case 'ú', 'ù', 'û', 'ü' -> 'u';
+            case 'ç' -> 'c';
+            case 'ñ' -> 'n';
+            default -> lower;
+        };
+    }
 }
