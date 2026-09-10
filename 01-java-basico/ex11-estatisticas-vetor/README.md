@@ -3,7 +3,7 @@
 > **Módulo:** 01 — Java Básico  
 > **Tipologia:** Service / Manipulação de Vetores Primitivos & Agregação Estatística  
 > **Dificuldade:** ⭐⭐☆ (Intermediário Iniciante)  
-> **Conceitos:** Vetores Primitivos (`double[]`), Varredura Linear em Passo Único ($O(N)$), Validação Defensiva de Entradas, Armadilhas de Inicialização (`Double.MIN_VALUE` vs `values[0]`), Relatórios Imutáveis com `record`  
+> **Conceitos:** Vetores Primitivos (`double[]`), Varredura Linear em Passo Único ($O(N)$), Validação Defensiva de Entradas, Armadilhas de Inicialização (`Double.MIN_VALUE` vs `values[0]`), Composição de Resultados com Objeto Pré-Pronto  
 
 ---
 
@@ -19,7 +19,7 @@ Antes de encaminhar os dados para dashboards ou disparar alertas de contingênci
 - **Amplitude:** a dispersão total entre o extremo máximo e o mínimo ($\text{max} - \text{min}$).
 - **Itens acima da média:** quantidade de leituras que superam o valor médio do período.
 
-Você foi encarregado de implementar a classe utilitária `VectorAnalyzer` e o relatório imutável `VectorStatistics`, assegurando alta performance, tratamento defensivo contra dados corrompidos e precisão numérica.
+Para agrupar essas métricas em um único retorno, o projeto já fornece pronta a estrutura `VectorStatistics`. Você deve focar exclusivamente na lógica algorítmica dentro da classe utilitária `VectorAnalyzer`.
 
 ---
 
@@ -28,16 +28,16 @@ Você foi encarregado de implementar a classe utilitária `VectorAnalyzer` e o r
 - Manipular **vetores primitivos (`double[]`)** sem recorrer a bibliotecas prontas de agregação.
 - Aplicar o padrão de **varredura em passo único ($O(N)$)**: acumular soma, localizar o menor valor e localizar o maior valor em um único laço `for`.
 - Evitar a armadilha clássica da JVM: inicializar `min` com `0.0` ou com `Double.MIN_VALUE` (que em Java representa o menor número **positivo** subnormal $4.9 \times 10^{-324}$, e não um número negativo).
-- Projetar estruturas de dados imutáveis utilizando a sintaxe moderna de **`record`** do Java.
+- Instanciar a estrutura de transporte pré-fornecida (`VectorStatistics`) para consolidar múltiplos resultados de retorno.
 - Praticar validações defensivas: lançamento de `IllegalArgumentException` para entradas nulas ou vetores de tamanho zero.
 
 ---
 
 ## 3. Regras de Negócio & Contratos da API
 
-### 3.1. Estrutura do Relatório (`VectorStatistics`)
+### 3.1. Estrutura de Retorno Fornecida (`VectorStatistics`)
 
-O relatório consolidado deve ser um `record` imutável com os seguintes componentes:
+> ℹ️ **Estrutura Pré-Pronta:** O arquivo `VectorStatistics.java` já vem implementado e **não precisa ser modificado**. Ele funciona como um agregador de dados que reúne as 6 métricas apuradas:
 
 ```java
 public record VectorStatistics(
@@ -50,7 +50,11 @@ public record VectorStatistics(
 )
 ```
 
-- **Invariante do Record:** O construtor compacto deve validar se `count <= 0`. Se for menor ou igual a zero, deve lançar `IllegalArgumentException("A quantidade de elementos para as estatísticas deve ser maior que zero")`.
+No método `calculateStatistics`, basta criar e retornar uma nova instância passando as variáveis calculadas:
+
+```java
+return new VectorStatistics(values.length, sum, average, min, max, amplitude);
+```
 
 ---
 
@@ -93,7 +97,25 @@ double max = values[0];
 
 ---
 
-## 4. Estrutura de Arquivos
+## 4. O que Você Deve Fazer
+
+1. Abra o arquivo `src/main/java/br/com/fatec/basic/ex11/VectorAnalyzer.java`.  
+   *(O arquivo `VectorStatistics.java` já está pronto e não precisa de nenhuma modificação).*
+2. Implemente os métodos de cálculo respeitando os contratos e validações defensivas:
+   - `calculateSum(double[] values)`
+   - `calculateAverage(double[] values)`
+   - `findMin(double[] values)`
+   - `findMax(double[] values)`
+   - `calculateStatistics(double[] values)` — instanciando `new VectorStatistics(...)`
+   - `countAboveAverage(double[] values)`
+3. Execute a suíte de testes automatizados para verificar sua solução:
+   ```bash
+   ./mvnw test -pl :ex11-estatisticas-vetor
+   ```
+
+---
+
+## 5. Estrutura de Arquivos
 
 ```text
 ex11-estatisticas-vetor/
@@ -101,12 +123,12 @@ ex11-estatisticas-vetor/
 ├── README.md
 ├── base/
 │   └── src/main/java/br/com/fatec/basic/ex11/
-│       ├── VectorStatistics.java
-│       └── VectorAnalyzer.java
+│       ├── VectorStatistics.java  <- [Fornecido pronto]
+│       └── VectorAnalyzer.java    <- [Template para o aluno]
 ├── src/
 │   ├── main/java/br/com/fatec/basic/ex11/
-│   │   ├── VectorStatistics.java
-│   │   └── VectorAnalyzer.java
+│   │   ├── VectorStatistics.java  <- [Fornecido pronto]
+│   │   └── VectorAnalyzer.java    <- [Exercício a resolver]
 │   └── test/java/br/com/fatec/basic/ex11/
 │       └── VectorAnalyzerTest.java
 └── solucao-proposta/
@@ -118,7 +140,7 @@ ex11-estatisticas-vetor/
 
 ---
 
-## 5. Dica de Reflexão / Desafio Opcional
+## 6. Dica de Reflexão / Desafio Opcional
 
 > ### 💡 Passo Único ($O(N)$) vs Múltiplos Passos
 >
@@ -130,18 +152,17 @@ ex11-estatisticas-vetor/
 
 ---
 
-## 6. Critérios de Aceite
+## 7. Critérios de Aceite
 
 1. Todos os testes unitários em `VectorAnalyzerTest.java` devem compilar e passar com sucesso (**100% verdes**).
 2. O método `calculateStatistics` deve processar corretamente vetores unitários (tamanho 1), vetores homogêneos (todos elementos iguais) e vetores com números negativos.
-3. As mensagens de erro para entradas inválidas devem respeitar estritamente as constantes:
+3. As mensagens de erro para entradas inválidas em `VectorAnalyzer` devem respeitar estritamente as constantes:
    - `"O vetor informado não pode ser nulo"`
    - `"O vetor não pode ser vazio para o cálculo estatístico"`
-4. A imutabilidade do `record VectorStatistics` deve ser preservada.
 
 ---
 
-## 7. Execução dos Testes
+## 8. Execução dos Testes
 
 Para executar a suíte de testes deste módulo isoladamente pelo terminal, utilize:
 

@@ -1,7 +1,10 @@
 package br.com.fatec.basic.ex11;
 
 /**
- * Relatório imutável contendo as métricas estatísticas essenciais de um vetor numérico.
+ * [ESTRUTURA FORNECIDA PRONTA — NÃO É NECESSÁRIO MODIFICAR ESTE ARQUIVO]
+ *
+ * Agrupador imutável de dados que consolida as métricas estatísticas essenciais de um vetor.
+ * Utilizado como tipo de retorno do método VectorAnalyzer.calculateStatistics(...).
  *
  * @param count quantidade total de elementos analisados
  * @param sum somatório de todos os elementos
@@ -18,9 +21,4 @@ public record VectorStatistics(
         double max,
         double amplitude
 ) {
-    public VectorStatistics {
-        if (count <= 0) {
-            throw new IllegalArgumentException("A quantidade de elementos para as estatísticas deve ser maior que zero");
-        }
-    }
 }

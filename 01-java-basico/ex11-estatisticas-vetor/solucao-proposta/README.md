@@ -78,10 +78,13 @@ public static double calculateStandardDeviation(double[] values) {
 
 ---
 
-## 4. Estrutura Imutável com `record`
+## 4. Estrutura de Retorno Fornecida (`VectorStatistics`)
 
-A utilização do `record VectorStatistics` garante:
-- Imutabilidade natural (todos os campos são `final`).
-- Métodos de acesso limpos (`stats.average()` em vez do verboso `stats.getAverage()`).
-- Implementações automáticas e consistentes de `equals()`, `hashCode()` e `toString()`.
-- Validação no construtor compacto assegurando que relatórios estatísticos nunca sejam instanciados com contagem nula ou negativa.
+Neste estágio do curso (Módulo 01 — Java Básico), os alunos ainda não estudaram Classes, Orientação a Objetos ou a sintaxe de `record` em profundidade.
+
+Por essa razão, `VectorStatistics` é fornecido **100% pronto no projeto**. O objetivo pedagógico do exercício é estritamente:
+- A manipulação e varredura de vetores primitivos (`double[]`).
+- O domínio de laços, contadores, acumuladores e lógica de extremos.
+- O consumo/instanciação simples de uma estrutura externa para agrupar múltiplos retornos (`new VectorStatistics(...)`).
+
+Os conceitos formais de imutabilidade, componentes de records e encapsulamento em POO serão aprofundados no **Módulo 02 — Orientação a Objetos**.

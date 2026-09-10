@@ -45,7 +45,7 @@ Cada exercício evolui através do seguinte fluxo de estados:
 | `01-java-basico/ex08-sequencia-fibonacci` | Sequência de Fibonacci | Algoritmo | `PRONTO` | Geração dos $N$ primeiros termos com variáveis de estado (`a`, `b`, `proximo`) em laço iterativo. |
 | `01-java-basico/ex09-validador-senha-forte` | Validador de Senha Forte | Service | `PRONTO` | Métodos de `String` (`length`, `charAt`) e inspeção de caracteres com `Character.isUpperCase`, `Character.isDigit`. |
 | `01-java-basico/ex10-analisador-palindromos` | Analisador de Palíndromos | Algoritmo | `PRONTO` | Verificação com dois ponteiros, sanitização de espaços e pontuação (`toLowerCase`, `Character.isLetterOrDigit`). |
-| `01-java-basico/ex11-estatisticas-vetor` | Estatísticas de Vetor | Service | `PRONTO` | Vetores `double[]`: cálculo em passo único $O(N)$ de soma, média, min, max e amplitude térmica com record imutável e validações defensivas. |
+| `01-java-basico/ex11-estatisticas-vetor` | Estatísticas de Vetor | Service | `PRONTO` | Vetores `double[]`: cálculo em passo único $O(N)$ de soma, média, min, max e amplitude com estrutura agregadora pré-fornecida e validações defensivas. |
 | `01-java-basico/ex12-ordenacao-bubble-sort` | Ordenação com Bubble Sort | Algoritmo | `DRAFT` | Implementação manual do Bubble Sort em `int[]`, trocas (*swap*) e flag de interrupção precoce. |
 | `01-java-basico/ex13-busca-linear-binaria` | Busca Linear vs Busca Binária | Algoritmo | `DRAFT` | Comparação prática entre busca sequencial e binária em vetor ordenado com contagem de comparações. |
 | `01-java-basico/ex14-tabuleiro-jogo-velha` | Tabuleiro de Jogo da Velha | Service | `DRAFT` | Matrizes bidimensionais (`char[][]`), verificação de vitórias em linhas, colunas, diagonais e empate. |

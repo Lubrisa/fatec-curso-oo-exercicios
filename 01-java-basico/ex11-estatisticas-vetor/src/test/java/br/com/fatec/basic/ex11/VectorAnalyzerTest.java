@@ -187,16 +187,6 @@ class VectorAnalyzerTest {
         }
 
         @Test
-        @DisplayName("Deve validar o Record VectorStatistics quanto à contagem inválida")
-        void shouldRejectInvalidCountInRecord() {
-            assertThatThrownBy(() -> new VectorStatistics(0, 0.0, 0.0, 0.0, 0.0, 0.0))
-                    .isInstanceOf(IllegalArgumentException.class);
-
-            assertThatThrownBy(() -> new VectorStatistics(-1, 0.0, 0.0, 0.0, 0.0, 0.0))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
         @DisplayName("Deve lançar exceções para nulo e vazio ao calcular estatísticas")
         void shouldThrowExceptionsForInvalidInputsInStatistics() {
             assertThatThrownBy(() -> VectorAnalyzer.calculateStatistics(null))
