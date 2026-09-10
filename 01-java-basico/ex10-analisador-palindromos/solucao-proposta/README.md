@@ -41,15 +41,23 @@ Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("\\p{M}", "")
 - A classe `java.text.Normalizer` separa a letra base de suas marcas diacríticas.
 - A expressão regular `\p{M}` (*Mark/Diacritic*) captura e remove exclusivamente os acentos combinatórios, transformando `"ônibus"` em `"onibus"` e `"maçã"` em `"maca"` de maneira universal e elegante.
 
-### 2.3. Resolução do Desafio: Verificação On-the-Fly em O(1) de Memória com Suporte a Acentos e Cedilha
+### 2.3. Resolução do Desafio: Verificação On-the-Fly em O(1) de Memória
 
-Na implementação de dois ponteiros *on-the-fly*, apenas chamar `Character.toLowerCase(c)` **não é suficiente** para textos em língua portuguesa. Em Java:
-- `Character.isLetterOrDigit('ô')` e `Character.isLetterOrDigit('ç')` retornam `true`.
-- Porém, `Character.toLowerCase('ô')` permanece `'ô'` (`\u00F4`), que é numericamente diferente de `'o'` (`\u006F`). O mesmo ocorre para `'ç'` (`\u00E7`) versus `'c'` (`\u0063`).
+A abordagem canônica aloca uma nova string sanitizada no Heap via `sanitize(text)`. Para textos muito grandes, isso gera consumo auxiliar desnecessário de memória ($O(N)$). 
 
-Se a verificação comparasse apenas `Character.toLowerCase`, frases célebres como *"Socorram-me, subi no ônibus em Marrocos!"* falhariam na comparação entre o `'ô'` e o `'o'`.
+Para verificar se um texto é palíndromo diretamente sobre a string original em espaço auxiliar **$O(1)$**, a técnica de dois ponteiros precisa solucionar simultaneamente **3 fatores**:
 
-Para manter a solução **estritamente em espaço auxiliar $O(1)$** (sem instanciar uma nova string no Heap), combinamos os dois ponteiros com uma função pura de desacentuação direta caractere a caractere (`switch` expression do Java moderno):
+1. **Caracteres Ignorados (Pulo de Ruído):**
+   - Espaços, pontuações, hífens e símbolos especiais não devem fazer parte da análise.
+   - **Solução:** Em vez de filtrar e criar uma nova string, os laços internos simplesmente avançam (`left++`) ou recuam (`right--`) enquanto `!Character.isLetterOrDigit(...)`.
+2. **Caracteres Convertidos (Case-Insensitivity):**
+   - Letras maiúsculas e minúsculas devem ser consideradas equivalentes (ex: `'A'` e `'a'`).
+   - **Solução:** Conversão direta do caractere inspecionado via `Character.toLowerCase(c)` no momento exato da comparação.
+3. **Normalização (Acentos e Cedilha):**
+   - Em Java, `Character.toLowerCase('ô')` permanece `'ô'` (`\u00F4`), que é numericamente diferente de `'o'` (`\u006F`). O mesmo ocorre para `'ç'` (`\u00E7`) e `'c'` (`\u0063`).
+   - **Solução:** Para evitar o uso de `Normalizer` (que alocaria um novo objeto no Heap), utilizamos uma função pura `normalizeChar(char c)` com `switch` inline, mapeando os caracteres acentuados para sua letra base em tempo $O(1)$ e sem alocação de memória.
+
+#### Implementação de Referência:
 
 ```java
 public static boolean isPalindromeOnTheFly(String text) {
@@ -61,15 +69,15 @@ public static boolean isPalindromeOnTheFly(String text) {
     int right = text.length() - 1;
 
     while (left < right) {
-        // Avança o ponteiro da esquerda enquanto não for letra ou dígito
+        // 1. Pula caracteres que devem ser ignorados
         while (left < right && !Character.isLetterOrDigit(text.charAt(left))) {
             left++;
         }
-        // Recua o ponteiro da direita enquanto não for letra ou dígito
         while (left < right && !Character.isLetterOrDigit(text.charAt(right))) {
             right--;
         }
 
+        // 2 e 3. Converte maiúsculas e normaliza acentos/cedilha
         char cLeft = normalizeChar(text.charAt(left));
         char cRight = normalizeChar(text.charAt(right));
 
@@ -85,8 +93,7 @@ public static boolean isPalindromeOnTheFly(String text) {
 }
 
 /**
- * Normaliza o caractere convertendo para minúsculo e removendo marcas diacríticas
- * em tempo constante O(1) e sem alocação de objetos no Heap.
+ * Converte para minúscula e remove acentos/cedilha em O(1) de tempo e memória.
  */
 private static char normalizeChar(char c) {
     char lower = Character.toLowerCase(c);
@@ -104,6 +111,6 @@ private static char normalizeChar(char c) {
 ```
 
 Essa solução combina o melhor dos dois mundos:
-- **Zero Alocações de Memória Auxiliar ($O(1)$ espaço):** Não cria instâncias intermediárias de `String`, `StringBuilder` ou arrays no Heap.
-- **Suporte Integral ao Português:** Reconhece equivalências fonéticas e ortográficas de acentos (`á`, `à`, `ã`, `â`, `é`, `ê`, `í`, `ó`, `ô`, `õ`, `ú`, etc.) e da cedilha (`ç`).
-- **Eficiência Máxima ($O(N)$ tempo):** Avalia e descarta discrepâncias na primeira divergência encontrada.
+- **Zero Alocações no Heap ($O(1)$ de espaço auxiliar):** Não gera novas strings ou arrays intermediários.
+- **Suporte Completo à Língua Portuguesa:** Reconhece pontuações complexas, diferenças de caixa e equivalências ortográficas.
+- **Interrupção Rápida ($O(N)$ no pior caso, $O(1)$ no melhor caso):** Falha imediatamente na primeira divergência encontrada.

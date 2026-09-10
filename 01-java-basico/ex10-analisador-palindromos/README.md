@@ -117,13 +117,14 @@ public static boolean isPalindrome(String text)
 
 > ### 💡 Desafio Opcional de Eficiência: Dois Ponteiros "On-the-Fly" (Zero Alocação)
 >
-> A abordagem canônica cria uma nova string sanitizada intermediária na memória Heap com `sanitize(text)` antes de testar a simetria. Para textos gigantescos (como um parágrafo inteiro de milhares de palavras), isso gera alocação desnecessária de memória ($O(N)$ de espaço auxiliar).
+> A abordagem canônica cria uma nova string sanitizada intermediária na memória Heap com `sanitize(text)` antes de testar a simetria. Para textos gigantescos, isso gera alocação desnecessária de memória ($O(N)$ de espaço auxiliar).
 >
-> 🔍 **Dica de Reflexão:**  
-> Seria possível verificar se uma frase é palíndromo percorrendo a string original **diretamente**, sem criar nenhuma string intermediária?  
-> - E se o ponteiro `left`, ao encontrar um espaço ou pontuação, simplesmente avançasse (`left++`) até encontrar a próxima letra ou dígito?  
-> - E se o ponteiro `right`, ao encontrar pontuação, recuasse (`right--`)?  
-> - **Atenção especial a acentos e cedilha:** Em Java, `Character.toLowerCase('ô')` permanece `'ô'` (não vira `'o'`), e `Character.toLowerCase('ç')` permanece `'ç'` (não vira `'c'`). Como lidar com isso sem alocar uma nova string? Uma função auxiliar com `switch` que mapeia caracteres acentuados para sua base em tempo $O(1)$ (`'ô' -> 'o'`, `'ç' -> 'c'`, `'á' -> 'a'`, etc.) permite manter o espaço auxiliar estritamente em **$O(1)$**, executando a análise in-place diretamente na memória original!
+> 🔍 **Dica de Reflexão — Como resolver os 3 fatores em espaço $O(1)$:**  
+> Seria possível verificar a simetria percorrendo a string original **diretamente**, sem criar nenhuma cópia intermediária?  
+> 1. **Caracteres Ignorados:** Ao encontrar espaços ou pontuações, avançar `left++` e recuar `right--` enquanto `!Character.isLetterOrDigit(...)`.  
+> 2. **Caracteres Convertidos:** Aplicar `Character.toLowerCase` em tempo real para igualar maiúsculas e minúsculas.  
+> 3. **Normalização:** Lidar com acentos e cedilha (ex: `'ô'` vs `'o'`, `'ç'` vs `'c'`) via uma função pura com `switch` que mapeia caracteres acentuados para sua letra base em $O(1)$.  
+> Essa estratégia combina os dois ponteiros com custo auxiliar nulo no Heap!
 
 ## 6. Critérios de Aceite
 
