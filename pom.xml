@@ -40,6 +40,7 @@
         <module>01-java-basico/ex08-sequencia-fibonacci</module>
         <module>01-java-basico/ex09-validador-senha-forte</module>
         <module>01-java-basico/ex10-analisador-palindromos</module>
+        <module>01-java-basico/ex11-estatisticas-vetor</module>
     </modules>
 
     <dependencyManagement>
