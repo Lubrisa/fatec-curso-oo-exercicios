@@ -27,7 +27,18 @@ Você deve desenvolver o módulo utilitário `PalindromeAnalyzer`, projetado par
 
 ## 3. Regras de Negócio & Algoritmo de Verificação
 
-### 3.1. Validação Estrita (`isStrictPalindrome`)
+### 3.1. Regra Arquitetural Obrigatória: A Técnica dos Dois Ponteiros (*Two Pointers*)
+
+Para garantir eficiência de processamento e economia de memória, **é obrigatório** que todas as verificações de simetria (`isStrictPalindrome` e `isPalindrome`) utilizem a **técnica dos dois ponteiros**:
+- Inicializa dois índices inteiros nas extremidades da cadeia: `left = 0` e `right = length - 1`.
+- Compara os caracteres: se `charAt(left) != charAt(right)`, encerra a execução e retorna `false` imediatamente (*interrupção precoce / fail-fast*).
+- Se forem iguais, converge os ponteiros em direção ao centro (`left++`, `right--`).
+- O laço é concluído com sucesso quando `left >= right`, confirmando a simetria com retorno `true`.
+- **Restrição de Implementação:** É expressamente desaconselhado/proibido o uso de `new StringBuilder(text).reverse()` ou duplicação reversa de strings para validação, pois isso consome memória adicional desnecessária no Heap ($O(N)$).
+
+---
+
+### 3.2. Validação Estrita (`isStrictPalindrome`)
 
 Uma string é considerada um palíndromo estrito quando todos os seus caracteres coincidem exatamente de ponta a ponta, sem nenhuma normalização ou descarte:
 - `"arara"` $\to$ `true`
@@ -36,10 +47,11 @@ Uma string é considerada um palíndromo estrito quando todos os seus caracteres
 - `"aba aba"` $\to$ `true`
 - `"aba   aba "` $\to$ `false` (espaço final não correspondido)
 - Uma string vazia `""` ou de tamanho 1 é considerada palíndromo por vacuidade/simetria trivial.
+- Deve aplicar os dois ponteiros diretamente sobre o texto original.
 
 ---
 
-### 3.2. Sanitização de Texto (`sanitize`)
+### 3.3. Sanitização de Texto (`sanitize`)
 
 Para permitir a validação de frases e expressões em linguagem natural, o método `sanitize(String text)` deve:
 1. Validar se `text == null` (lançando `IllegalArgumentException("O texto informado não pode ser nulo")`).
@@ -53,16 +65,12 @@ Para permitir a validação de frases e expressões em linguagem natural, o mét
 
 ---
 
-### 3.3. Validação em Linguagem Natural (`isPalindrome`)
+### 3.4. Validação em Linguagem Natural (`isPalindrome`)
 
 Avalia se o texto informado forma um palíndromo quando sanitizado:
 1. Valida se `text == null` (lançando `IllegalArgumentException("O texto informado não pode ser nulo")`).
 2. Se o texto sanitizado estiver vazio (por exemplo, uma entrada composta apenas por `"   !@#  "`), o método deve retornar `true` (já que não há caracteres conflitantes).
-3. Utiliza a técnica dos dois ponteiros (`left = 0`, `right = length - 1`):
-   - Compara o caractere na posição `left` com o da posição `right`.
-   - Se forem diferentes, encerra imediatamente e retorna `false`.
-   - Se forem iguais, avança `left++` e recua `right--`.
-   - O laço termina quando `left >= right`, retornando `true`.
+3. Aplica a técnica dos dois ponteiros (`left = 0`, `right = sanitized.length() - 1`) sobre o texto sanitizado (podendo reaproveitar internamente a chamada a `isStrictPalindrome(sanitized)`).
 
 ## 4. Estrutura da Classe & Especificação dos Métodos
 
@@ -121,6 +129,7 @@ public static boolean isPalindrome(String text)
 ## 6. Critérios de Aceite
 
 - Todos os testes da classe `PalindromeAnalyzerTest` devem passar com sucesso (`BUILD SUCCESS`).
+- As verificações de simetria devem obrigatoriamente empregar a técnica dos dois ponteiros com convergência central e parada *fail-fast*.
 - Parâmetros nulos devem lançar `IllegalArgumentException` com a mensagem exata `"O texto informado não pode ser nulo"`.
 - `isStrictPalindrome` deve ser sensível a maiúsculas, espaços e pontuações.
 - `isPalindrome` deve validar corretamente frases clássicas em língua portuguesa com acentos, pontuação variada e maiúsculas mistas.
